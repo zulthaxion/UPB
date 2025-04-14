@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Prompt Bible for Writing & Literature</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a; /* Deep Slate Blue */
+            --bg-secondary: #1e293b; /* Medium Slate */
+            --bg-tertiary: #334155; /* Lighter Slate */
+            --text-primary: #e2e8f0; /* Light Gray */
+            --text-secondary: #94a3b8; /* Medium Gray */
+            --accent-primary: #38bdf8; /* Sky Blue */
+            --accent-secondary: #67e8f9; /* Cyan */
+            --border-color: #475569; /* Slate Border */
+            --error-color: #f87171; /* Red */
+            --code-bg: #020617; /* Very Dark Blue */
+            --font-body: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --font-heading: 'Orbitron', sans-serif; /* Sci-fi feel */
+            --transition-speed: 0.3s;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', var(--font-body);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 16px;
+            padding: 1rem;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--accent-primary);
+            margin-bottom: 0.8rem;
+            line-height: 1.3;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 5px var(--accent-secondary);
+        }
+
+        h2.subtitle {
+             text-align:center;
+             font-size: 1.2rem; /* Smaller than H1 */
+             color: var(--text-secondary);
+             margin-bottom: 2rem;
+             font-family: 'Roboto', var(--font-body); /* Use body font for subtitle */
+             font-weight: 400;
+        }
+
+        p, ul, ol, dl {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--accent-secondary);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            max-width: 1200px; /* Wider for prompts */
+            margin: 2rem auto;
+            background-color: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        details {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            overflow: hidden; /* Prevents content spill during animation */
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        details[open] {
+            background-color: var(--bg-secondary); /* Slightly darker when open */
+        }
+
+        summary {
+            font-family: var(--font-heading);
+            font-weight: bold;
+            font-size: 1.3rem; /* Slightly larger for main categories */
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            background-color: var(--bg-tertiary); /* Same as closed details */
+            color: var(--accent-primary);
+            list-style: none; /* Remove default marker */
+            position: relative;
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        details details summary { /* Nested summaries slightly smaller */
+             font-size: 1.1rem;
+             padding: 0.8rem 1.2rem;
+             background-color: #3e526e; /* Darker nested summary */
+        }
+
+
+        summary:hover {
+            background-color: #4b5a70; /* Slightly lighter hover */
+        }
+
+        summary::marker, /* Firefox */
+        summary::-webkit-details-marker /* Chrome/Safari */ {
+            display: none;
+        }
+
+        summary::before { /* Custom arrow marker */
+            content: '►';
+            position: absolute;
+            left: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%) rotate(0deg);
+            font-size: 0.8em;
+            color: var(--accent-secondary);
+            transition: transform var(--transition-speed) ease;
+        }
+
+        details[open] > summary::before {
+            transform: translateY(-50%) rotate(90deg);
+        }
+
+        details > div { /* Direct content area */
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+        details details > div { /* Nested content area */
+             padding: 0.8rem 1rem 0.8rem 2rem; /* Add left padding for indent */
+             border-top: 1px solid var(--border-color);
+        }
+
+
+        .prompt-item {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .prompt-item strong { /* Style for labels like Role/Prompt */
+            color: var(--accent-secondary);
+            display: block; /* Make labels appear on their own line */
+            margin-bottom: 0.3rem;
+        }
+
+        .prompt-item p { /* Text of the prompt */
+             margin-left: 1rem; /* Indent prompt text slightly */
+             margin-bottom: 0; /* Remove bottom margin if label is above */
+        }
+
+        /* Styling for simple prompt list (List 1 style) */
+         details > div > p { /* Direct paragraph prompts */
+            padding: 0.5rem 0;
+            border-bottom: 1px dotted var(--border-color);
+         }
+         details > div > p:last-child {
+             border-bottom: none;
+         }
+          details > div > p > strong { /* Role label */
+            color: var(--accent-secondary);
+          }
+
+        dl dt {
+            font-weight: bold;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        dl dd {
+            margin-left: 1.5rem;
+        }
+
+        dl dd ul, dl dd p { /* Indent lists/paras within dd */
+             margin-left: 1rem;
+             margin-bottom: 0.5rem;
+        }
+
+        ul, ol {
+             padding-left: 1.5rem; /* Standard indent for lists */
+             margin-bottom: 1rem; /* Ensure lists have bottom margin */
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: #d1d5db; /* Lighter gray for code */
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+            margin-top: 0.5rem;
+            border: 1px solid var(--border-color);
+            white-space: pre-wrap; /* Allow wrapping */
+            word-wrap: break-word; /* Break long words */
+        }
+
+        code {
+           font-family: 'Courier New', Courier, monospace;
+           background-color: var(--code-bg);
+           padding: 0.2em 0.4em;
+           border-radius: 3px;
+           font-size: 0.9em;
+        }
+
+        blockquote {
+             background-color: var(--bg-tertiary);
+             border-left: 5px solid var(--accent-primary);
+             padding: 1rem;
+             margin-left: 1rem;
+             margin-bottom: 1rem;
+             font-style: italic;
+             color: var(--text-secondary);
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 0.5rem;
+                font-size: 15px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            main {
+                padding: 1rem;
+            }
+            summary {
+                font-size: 1.2rem;
+                padding: 0.8rem 1.2rem;
+            }
+            details details summary {
+                 font-size: 1rem;
+                 padding: 0.6rem 1rem;
+            }
+             summary::before {
+                left: 0.3rem;
+            }
+            details > div {
+                padding: 0.8rem 1rem;
+            }
+             dl dd {
+                 margin-left: 1rem;
+            }
+             dl dd ul, dl dd p {
+                 margin-left: 0.5rem;
+             }
+             ul, ol {
+                 padding-left: 1rem;
+             }
+              blockquote {
+                 margin-left: 0.5rem;
+             }
+             .prompt-item {
+                 padding: 0.8rem;
+             }
+             .prompt-item p {
+                 margin-left: 0.5rem;
+             }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Comprehensive Prompt Bible for Writing & Literature</h1>
+        <h2 class="subtitle">A Curated Collection of Prompts for Analysis, Creativity, and Complete Book Development</h2>
+    </header>
+
+    <main>
+
+        <details open>
+            <summary>Part 1: Prompts Focused on Writing and Literature (General)</summary>
+            <div>
+                <p><em>This list combines critical thinking, problem-solving, creative tasks, and expert roles within the broader field of writing and literature. It draws inspiration from the style of prompts in the provided comprehensive set of prompts... file but focuses specifically on this domain.</em></p>
+
+                <details>
+                    <summary>Critical Analysis & Theory</summary>
+                    <div>
+                        <p>1. <strong>Act as a literary critic:</strong> Analyze the use of unreliable narration in [Specific Novel/Short Story] and discuss its effect on the reader's interpretation.</p>
+                        <p>3. <strong>Analyze the impact of the historical context</strong> of [Time Period] on the themes and style of [Author]'s major works.</p>
+                        <p>4. <strong>Analyze the strengths and weaknesses of using multiple Points of View</strong> in a novel versus a single POV. Use examples.</p>
+                        <p>5. <strong>Argue for or against the classification of [Specific Work]</strong> as belonging to the [Genre] genre, providing textual evidence.</p>
+                        <p>6. <strong>Assess the effectiveness of the dialogue</strong> in [Play/Screenplay Excerpt] in revealing character and advancing the plot.</p>
+                        <p>8. <strong>Break down the key elements of magical realism</strong> as a literary genre, citing examples from prominent authors.</p>
+                        <p>11. <strong>Clarify the meaning and significance of the central metaphor</strong> in [Specific Poem].</p>
+                        <p>12. <strong>Compare and contrast the character arcs</strong> of the protagonists in [Novel A] and [Novel B].</p>
+                        <p>24. <strong>Define the literary term "intertextuality"</strong> using clear language and providing examples from literature or film.</p>
+                        <p>30. <strong>Elaborate on the role of setting</strong> in creating atmosphere and influencing character in [Specific Novel].</p>
+                        <p>31. <strong>Evaluate the arguments for and against trigger warnings</strong> in literature classes.</p>
+                        <p>32. <strong>Explain the concept of the "hero's journey"</strong> archetype simply, using a well-known story as an example.</p>
+                        <p>33. <strong>Explain the significance of the ending</strong> of [Short Story Title]. Offer multiple possible interpretations.</p>
+                        <p>34. <strong>Explain the rules and structure of a specific poetic form</strong> (e.g., Villanelle, Sestina).</p>
+                        <p>35. <strong>Explore the ethical considerations for authors</strong> when writing about real people or events.</p>
+                        <p>36. <strong>Extract the main arguments and counterarguments</strong> from this literary debate transcript: [Transcript Text].</p>
+                        <p>37. <strong>Fact-check the historical details</strong> presented in this excerpt from a historical fiction novel: [Excerpt Text].</p>
+                        <p>39. <strong>Find recurring motifs or symbols</strong> in the collected works of [Author].</p>
+                        <p>41. <strong>Formulate counter-arguments to the critical assertion</strong> that [Literary Work] is overrated.</p>
+                        <p>46. <strong>Hypothesize the intended audience</strong> for this piece of experimental fiction: [Fiction Excerpt].</p>
+                        <p>47. <strong>Identify the logical fallacies</strong> in this negative book review: [Review Text].</p>
+                        <p>48. <strong>Identify the central conflict and the stakes</strong> for the protagonist in this story synopsis: [Synopsis Text].</p>
+                        <p>49. <strong>Illustrate the difference between plot and theme</strong> using a well-known fairy tale.</p>
+                        <p>51. <strong>Imagine the challenges of translating humor</strong> across different languages and cultures in literature.</p>
+                        <p>54. <strong>Interpret the allegorical meaning</strong> of [Animal Fable or Parable].</p>
+                        <p>55. <strong>Investigate the influence of mythology</strong> on the works of [Author or Genre].</p>
+                        <p>56. <strong>Justify the use of a non-linear narrative structure</strong> in [Specific Novel or Film].</p>
+                        <p>57. <strong>List the key differences between literary fiction and genre fiction.</strong></p>
+                        <p>58. <strong>Map out the rising and falling action</strong> surrounding the climax in [Specific Play].</p>
+                        <p>61. <strong>Paraphrase this dense academic article</strong> on literary theory into a clear summary for undergraduates: [Article Text].</p>
+                        <p>66. <strong>Propose a fresh interpretation</strong> of a frequently analyzed literary work like *Hamlet* or *Pride and Prejudice*. </p>
+                        <p>67. <strong>Provide a comprehensive explanation of postmodern literature's key characteristics.</strong></p>
+                        <p>69. <strong>Rank the following novels</strong> based on their perceived influence on the [Genre] genre, justifying your ranking: [List of Novels].</p>
+                        <p>72. <strong>Research the publication history</strong> of a controversial book and the critical reception it initially received.</p>
+                        <p>76. <strong>Simplify the core concepts of [Literary Theory, e.g., Deconstruction]</strong> for someone unfamiliar with it.</p>
+                        <p>80. <strong>Summarize the plot and major themes</strong> of [Classic Play] in three paragraphs.</p>
+                        <p>81. <strong>Synthesize information from these three critical essays</strong> to provide an overview of the scholarly debate surrounding [Literary Topic]: [Essay Links/Texts].</p>
+                        <p>90. <strong>Write code (or pseudocode) to analyze the sentence length variation</strong> in a given text file, a common stylistic metric.</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Creative Generation & Adaptation</summary>
+                    <div>
+                        <p>2. <strong>Adapt this poem [Poem Text] into a short fictional narrative.</strong> Focus on translating the imagery and themes into plot and character.</p>
+                        <p>7. <strong>Brainstorm five unique plot concepts</strong> for a story set in a library where the books come alive at night.</p>
+                        <p>14. <strong>Compose a sonnet</strong> exploring the theme of writer's block.</p>
+                        <p>16. <strong>Construct a detailed character profile</strong> for a fictional detective based solely on their internal monologue provided here: [Monologue Text].</p>
+                        <p>19. <strong>Create a dialogue between two famous authors from different eras</strong> (e.g., Jane Austen and Ernest Hemingway) discussing the evolution of the novel.</p>
+                        <p>27. <strong>Develop a compelling logline and short pitch</strong> for a novel based on this premise: [Brief Premise].</p>
+                        <p>28. <strong>Develop three distinct narrative voices</strong> for the same short scene: [Scene Description].</p>
+                        <p>44. <strong>Generate five evocative titles</strong> for a fantasy novel about a reluctant dragon rider.</p>
+                        <p>50. <strong>Imagine you are a character from [Classic Novel]:</strong> Write a diary entry reflecting on a key event from the book.</p>
+                        <p>71. <strong>Reframe the villain's actions</strong> in [Story Title] from their own perspective in a short monologue.</p>
+                        <p>74. <strong>Rewrite this passive-voice-heavy paragraph</strong> using active voice for stronger impact: [Paragraph Text].</p>
+                        <p>75. <strong>Role-play a brainstorming session between an author and their editor</strong> working through a plot problem.</p>
+                        <p>83. <strong>Tell a short story that begins with the line:</strong> "The last thing the old librarian remembered was the book whispering back."</p>
+                        <p>85. <strong>Translate this excerpt of dialogue</strong> to reflect a different character's socioeconomic background or regional dialect: [Dialogue Text].</p>
+                        <p>87. <strong>Turn these bullet-point plot ideas</strong> into a flowing narrative outline: [Bullet Points].</p>
+                        <p>88. <strong>Update the language and setting of a classic fairy tale</strong> for a modern young adult audience.</p>
+                        <p>89. <strong>Write a compelling author statement</strong> explaining the inspiration and themes behind your (hypothetical) novel.</p>
+                    </div>
+                </details>
+
+                 <details>
+                    <summary>Writing Craft, Process & Pedagogy</summary>
+                    <div>
+                        <p>9. <strong>Categorize these writing samples</strong> based on their dominant literary style (e.g., minimalist, ornate, journalistic).</p>
+                        <p>10. <strong>Check this critical essay draft</strong> for clarity of argument, logical flow, and sufficient textual evidence.</p>
+                        <p>13. <strong>Compile a list of resources (books, websites, courses)</strong> for improving descriptive writing skills.</p>
+                        <p>18. <strong>Create a checklist for self-editing</strong> a manuscript, covering plot, character, pacing, and prose.</p>
+                        <p>20. <strong>Create an analogy to explain the concept of "showing, not telling"</strong> in creative writing.</p>
+                        <p>23. <strong>Debug this narrative passage:</strong> Identify and suggest corrections for awkward phrasing, clichés, and passive voice. [Passage Text]</p>
+                        <p>38. <strong>Find alternative ways to phrase these common clichés</strong> found in fiction writing: [List of Clichés].</p>
+                        <p>45. <strong>Give specific examples of strong verb usage</strong> versus weak verb usage in prose.</p>
+                        <p>52. <strong>Implement a revision plan for this short story draft</strong> focusing on improving its pacing: [Story Draft].</p>
+                        <p>53. <strong>Improve the sensory details</strong> in this descriptive passage: [Passage Text].</p>
+                        <p>60. <strong>Organize these research notes</strong> into a coherent outline for an essay on [Literary Topic]: [Notes Text].</p>
+                        <p>63. <strong>Plan a detailed syllabus for an introductory creative writing course.</strong></p>
+                        <p>65. <strong>Prioritize the key revisions needed</strong> for this novel chapter based on beta reader feedback: [Chapter Text + Feedback].</p>
+                        <p>68. <strong>Provide constructive feedback on the world-building</strong> elements in this fantasy story excerpt: [Excerpt Text].</p>
+                        <p>70. <strong>Reconstruct the probable writing routine or process</strong> of a famously prolific author (e.g., Stephen King, Isaac Asimov).</p>
+                        <p>77. <strong>Solve the logistical challenge of incorporating a large amount of exposition</strong> naturally into a narrative. Propose techniques.</p>
+                        <p>82. <strong>Teach the basic principles of writing effective scene descriptions.</strong></p>
+                        <p>84. <strong>Test the clarity and effectiveness of these different book blurbs</strong> for the same novel: [Blurb Options].</p>
+                        <p>86. <strong>Troubleshoot why a particular character</strong> in this story feels flat or underdeveloped: [Story Excerpt].</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Publishing, Industry & Meta</summary>
+                    <div>
+                        <p>17. <strong>Create a case study analyzing the marketing campaign</strong> for a bestselling novel and its impact on sales.</p>
+                        <p>21. <strong>Create an outline for a lecture</strong> on the history and development of science fiction literature.</p>
+                        <p>22. <strong>Critique this book proposal</strong> for its market viability, clarity of concept, and author platform.</p>
+                        <p>25. <strong>Describe the typical process of querying literary agents</strong> for a fiction manuscript.</p>
+                        <p>26. <strong>Design an experiment to test the effect of different opening lines</strong> on reader engagement with a short story.</p>
+                        <p>29. <strong>Draft a rejection letter from a literary journal editor</strong> that provides constructive feedback to the author.</p>
+                        <p>40. <strong>Forecast potential trends in the publishing industry</strong> over the next five years.</p>
+                        <p>42. <strong>Formulate interview questions for a biographer</strong> discussing their process of researching their subject's life.</p>
+                        <p>43. <strong>Generate discussion questions for a university seminar</strong> analyzing [Philosophical Novel].</p>
+                        <p>59. <strong>Optimize this author bio</strong> for maximum impact on potential readers: [Bio Text].</p>
+                        <p>62. <strong>Persuade a publisher to acquire a manuscript</strong> by highlighting its unique selling points and market potential.</p>
+                        <p>64. <strong>Predict how the rise of AI writing tools might affect</strong> the publishing industry and the role of authors.</p>
+                        <p>73. <strong>Review this collection of poetry</strong> focusing on its thematic coherence, use of language, and emotional impact.</p>
+                        <p>78. <strong>Structure a compelling query letter</strong> for a non-fiction book proposal.</p>
+                        <p>79. <strong>Suggest innovative ways to use social media</strong> for book promotion beyond simple buy links.</p>
+                   </div>
+                </details>
+            </div>
+        </details> <!-- End Part 1 -->
+
+        <details open>
+            <summary>Part 2: Prompts for the Complete Book Writing Process (Expert Roles)</summary>
+            <div>
+                 <p><em>This list provides a more extensive, varied, and useful set of prompts specifically designed to guide the entire process of creating a book and populating a detailed story bible. The expert roles are highly specific to tasks within the writing and publishing workflow.</em></p>
+
+                <details>
+                    <summary>Conceptualization, Planning & Theme</summary>
+                    <div>
+                        <div class="prompt-item">
+                            <strong>1. Role: Concept Development Expert</strong>
+                            <p>Generate 5 high-concept story ideas in the [Genre] genre, each with a logline, core conflict, and unique hook suitable for story bible documentation.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>2. Role: Genre Tropes Analyst</strong>
+                            <p>Identify common tropes in [Genre] and brainstorm 3 ways to subvert or uniquely combine them for a new story concept. Document these variations.</p>
+                        </div>
+                        <div class="prompt-item">
+                            <strong>3. Role: Theme Weaver</strong>
+                            <p>Propose 3 central themes for a story based on [Premise] and outline specific plot points or character moments where each theme could be explored. Add this to the story bible's theme section.</p>
+                        </div>
+                        <div class="prompt-item">
+                            <strong>55. Role: Logline Perfecter</strong>
+                            <p>Refine the working logline based on the fully developed plot and themes to be maximally concise and compelling. Record the final version.</p>
+                        </div>
+                        <div class="prompt-item">
+                            <strong>49. Role: Symbolism & Motif Planner</strong>
+                            <p>Identify potential recurring symbols or motifs that could enhance the story's themes. Suggest where they could be introduced or repeated in the outline. Add to story bible's thematic elements.</p>
+                         </div>
+                         <div class="prompt-item">
+                            <strong>50. Role: Reader Expectation Manager (Genre)</strong>
+                            <p>Discuss typical reader expectations for [Genre] endings and how the planned ending aligns with or subverts them. Justify the choice.</p>
+                         </div>
+                         <div class="prompt-item">
+                            <strong>56. Role: Reader Emotion Mapper</strong>
+                            <p>Identify 3 key scenes in the outline where a specific emotional response (e.g., suspense, empathy, shock) is desired from the reader. Analyze if the current plan effectively builds towards that emotion.</p>
+                         </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Worldbuilding & Setting</summary>
+                    <div>
+                         <div class="prompt-item">
+                            <strong>4. Role: Worldbuilding Architect</strong>
+                            <p>Outline the fundamental rules (physics, magic, technology) governing [Fictional World Name]. Document these core principles for the story bible.</p>
+                        </div>
+                        <div class="prompt-item">
+                            <strong>5. Role: Cultural Anthropologist (Fiction)</strong>
+                            <p>Develop the core social structures, customs, beliefs, and potential conflicts for a primary culture in [Fictional World Name]. Create a story bible entry for this culture.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>6. Role: Fictional Historian</strong>
+                            <p>Create a concise timeline of major historical events leading up to the present day in [Fictional World Name]. Add this timeline to the story bible's history section.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>7. Role: Setting Visualizer</strong>
+                            <p>Write a detailed, multi-sensory description of a key location (e.g., capital city, forbidden forest, space station hub) for the story bible.</p>
+                        </div>
+                        <div class="prompt-item">
+                             <strong>33. Role: Consistency Auditor (Worldbuilding Focus)</strong>
+                             <p>Review the story bible's worldbuilding sections (history, culture, geography, rules) for internal consistency. Flag any contradictions or logical gaps related to the world itself.</p>
+                         </div>
+                         <div class="prompt-item">
+                            <strong>45. Role: Magic System Logician</strong>
+                            <p>Analyze the proposed magic system for loopholes, inconsistencies, or areas needing further definition. Suggest clarifications for the story bible.</p>
+                        </div>
+                        <div class="prompt-item">
+                            <strong>46. Role: Fictional Technology Consultant</strong>
+                            <p>Evaluate the plausibility and implications of the proposed technology in a sci-fi setting. Suggest refinements for consistency.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>47. Role: Historical Authenticity Verifier</strong>
+                            <p>Review the historical details planned for a chapter set in [Historical Period] and flag potential anachronisms or areas needing more research.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>51. Role: World Bible Compiler</strong>
+                            <p>Organize all generated worldbuilding notes (history, culture, geography, rules) into a clean, easily navigable section within the story bible.</p>
+                         </div>
+                    </div>
+                </details>
+
+                 <details>
+                    <summary>Character Development</summary>
+                    <div>
+                        <div class="prompt-item">
+                            <strong>8. Role: Character Concept Generator</strong>
+                             <p>Create profiles for 3 potential main characters, including core motivation, fatal flaw, and initial relationship dynamics. Format for story bible character sheets.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>9. Role: Character Backstory Developer</strong>
+                            <p>Take [Character Name] and write a detailed backstory, focusing on formative events that shape their current personality and goals. Add this to their character sheet.</p>
+                        </div>
+                        <div class="prompt-item">
+                            <strong>10. Role: Character Voice Specialist</strong>
+                            <p>Write a short monologue for [Character Name] that clearly establishes their unique voice, vocabulary, and speaking patterns. Include this in their story bible profile.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>11. Role: Character Arc Planner</strong>
+                            <p>Outline a potential character arc for [Character Name] across a three-act structure, defining their starting point, key turning points, and potential ending state. Document this arc.</p>
+                        </div>
+                        <div class="prompt-item">
+                            <strong>12. Role: Relationship Dynamics Mapper</strong>
+                             <p>Describe the initial relationship (conflict, alliance, mentorship, romance) between [Character A] and [Character B], including potential future developments. Add this to a relationships section in the story bible.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>52. Role: Character Sheet Standardizer</strong>
+                            <p>Ensure all main character profiles in the story bible follow a consistent format and include essential information (goals, flaws, arc, relationships).</p>
+                         </div>
+                          <div class="prompt-item">
+                            <strong>54. Role: Character Interviewer</strong>
+                             <p>Formulate 5 interview questions to ask your main character [Character Name] as if they were real, to uncover deeper insights into their personality and motivations beyond what's already in the Story Bible.</p>
+                         </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Plot, Structure & Pacing</summary>
+                    <div>
+                         <div class="prompt-item">
+                            <strong>13. Role: Plot Structure Consultant</strong>
+                            <p>Compare the suitability of different narrative structures (linear, non-linear, multi-POV) for a story with [Premise] and recommend the best fit, justifying the choice for the story bible rationale.</p>
+                        </div>
+                        <div class="prompt-item">
+                            <strong>14. Role: Story Beats Orchestrator</strong>
+                             <p>Define the key story beats (Inciting Incident, Plot Point 1, Midpoint, Plot Point 2, Climax, Resolution) for the proposed plot outline. Write brief descriptions for each beat in the story bible.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>15. Role: Outline Strategist</strong>
+                            <p>Take these key story beats and expand them into a detailed chapter-by-chapter outline (bullet points per chapter) for the story bible.</p>
+                        </div>
+                        <div class="prompt-item">
+                            <strong>16. Role: Scene Construction Mentor</strong>
+                            <p>Guide the writing of a specific scene [Scene Prompt] by focusing on: objective, conflict, setting integration, sensory details, and resolution/transition.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>18. Role: Pacing Diagnostician</strong>
+                            <p>Analyze this chapter draft [Chapter Text] and identify sections where the pacing feels too fast or too slow, suggesting specific techniques (scene cuts, description expansion, action intensification) to adjust it. Note recommendations in the bible's chapter notes.</p>
+                        </div>
+                        <div class="prompt-item">
+                            <strong>26. Role: Foreshadowing Consultant</strong>
+                             <p>Suggest 3 subtle ways to foreshadow [Future Plot Event] earlier in the narrative outline. Add these to the relevant chapter notes in the story bible.</p>
+                        </div>
+                        <div class="prompt-item">
+                            <strong>27. Role: Plot Twist Engineer</strong>
+                            <p>Brainstorm 3 potential plot twists that could occur around the midpoint of the story, analyzing the potential impact of each. Document these possibilities.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>28. Role: Subplot Integrator</strong>
+                             <p>Develop a subplot involving [Secondary Character] that connects thematically or causally to the main plot. Outline its key beats for the story bible.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>29. Role: Conflict Escalation Specialist</strong>
+                             <p>Analyze the central conflict. Suggest ways to raise the stakes for the protagonist leading into the climax.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>30. Role: Climax Choreographer</strong>
+                            <p>Outline the sequence of events for the story's climax, ensuring it resolves the main conflict and involves a key decision or action from the protagonist. Add to the story bible beats.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>31. Role: Resolution Architect</strong>
+                            <p>Design a satisfying resolution that addresses the main plot and key character arcs, while potentially hinting at future stories. Document the intended ending state.</p>
+                        </div>
+                         <div class="prompt-item">
+                             <strong>33. Role: Consistency Auditor (Plot Focus)</strong>
+                             <p>Review the story bible's plot outline, chapter summaries, and character arcs for internal consistency. Flag any contradictions, plot holes, or logical gaps in the narrative sequence.</p>
+                         </div>
+                         <div class="prompt-item">
+                            <strong>48. Role: Emotional Arc Tracker</strong>
+                            <p>Map the intended emotional journey of the reader throughout the narrative outline, identifying key moments for impact.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>55. Role: "What If" Scenario Explorer</strong>
+                            <p>Propose 3 significant "what if" changes to the plot outline (e.g., What if Character A died earlier? What if the villain's motive was different?). Briefly explore the potential ripple effects for Story Bible consideration.</p>
+                        </div>
+                   </div>
+                </details>
+
+                <details>
+                    <summary>Drafting, Prose & Style</summary>
+                    <div>
+                         <div class="prompt-item">
+                            <strong>17. Role: Dialogue Refiner</strong>
+                            <p>Analyze this dialogue excerpt [Dialogue Text] and suggest revisions to make it sound more natural, reveal subtext, and differentiate character voices. Update the story bible script/chapter draft.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>19. Role: Prose Polisher</strong>
+                             <p>Rewrite this paragraph [Paragraph Text] to enhance its flow, imagery, and impact, focusing on strong verbs and varied sentence structure. Replace the bible's draft text.</p>
+                        </div>
+                        <div class="prompt-item">
+                            <strong>20. Role: Syntax Harmonizer</strong>
+                             <p>Review this passage [Passage Text] for sentence structure variety and rhythm. Suggest revisions to avoid monotony or improve clarity.</p>
+                        </div>
+                        <div class="prompt-item">
+                            <strong>21. Role: Semantics Precision Expert</strong>
+                             <p>Check this description [Text] for precise and evocative word choice. Suggest stronger verbs, more specific nouns, and impactful adjectives. Update the description in the story bible.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>22. Role: "Show, Don't Tell" Coach</strong>
+                            <p>Identify instances of "telling" in this excerpt [Text] and rewrite them to "show" the emotion, character trait, or plot point through action, dialogue, or sensory detail.</p>
+                        </div>
+                        <div class="prompt-item">
+                            <strong>23. Role: Figurative Language Enhancer</strong>
+                            <p>Suggest 3 potential metaphors or similes to enrich the description of [Concept or Object] in the story bible.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>24. Role: Tone Consistency Checker</strong>
+                            <p>Read these two chapters [Chapter A Text, Chapter B Text] and assess if the tone is consistent. Identify any jarring shifts and suggest adjustments. Add notes to the story bible's style guide.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>25. Role: Point of View Guardian</strong>
+                            <p>Ensure the chosen Point of View (e.g., third-person limited) is maintained consistently throughout this chapter [Chapter Text], flagging any slips.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>34. Role: First Drafter's Ally</strong>
+                            <p>Provide strategies and prompts to overcome writer's block during the drafting phase of [Specific Chapter/Scene].</p>
+                        </div>
+                        <div class="prompt-item">
+                            <strong>50. Role: Pre-Writing Ritual Designer</strong>
+                            <p>Suggest 3 potential pre-writing rituals or warm-up exercises an author could use to get into the creative mindset before starting a writing session for this specific project.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>51. Role: Visual Inspiration Curator</strong>
+                            <p>Suggest 3 types of visual references (e.g., specific artists, architectural styles, landscape photos) that align with the novel's aesthetic and setting as described in the Story Bible, to aid the author's visualization.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>52. Role: Soundtrack Conceptualizer</strong>
+                             <p>Based on the novel's tone, themes, and key scenes outlined in the Story Bible, suggest 3 musical genres or specific artists whose work could serve as an inspirational soundtrack for the author.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>57. Role: Time Management Coach (Author)</strong>
+                             <p>Suggest 3 time management techniques (e.g., Pomodoro, time blocking) tailored for balancing writing with other commitments, to help maintain progress on the manuscript outlined in the Story Bible.</p>
+                         </div>
+                    </div>
+                </details>
+
+                 <details>
+                    <summary>Revision, Editing & Feedback</summary>
+                    <div>
+                         <div class="prompt-item">
+                            <strong>35. Role: Revision Strategist</strong>
+                            <p>Based on this draft [Draft Text] and feedback [Feedback Summary], create a prioritized revision plan focusing on the most critical issues (plot structure, character motivation, clarity).</p>
+                        </div>
+                        <div class="prompt-item">
+                            <strong>36. Role: Editing Guide</strong>
+                             <p>Perform a line edit on this passage [Passage Text], correcting grammar, punctuation, spelling, and awkward phrasing, explaining the reasoning for key changes.</p>
+                        </div>
+                         <div class="prompt-item">
+                            <strong>37. Role: Proofreading Double-Checker</strong>
+                            <p>Scan this finalized chapter [Chapter Text] specifically for typos, formatting errors, and easily missed mistakes (e.g., repeated words, incorrect punctuation).</p>
+                        </div>
+                        <div class="prompt-item">
+                            <strong>38. Role: Beta Reader Feedback Synthesizer</strong>
+                            <p>Analyze feedback from multiple beta readers on [Manuscript Draft] and summarize the key recurring points (positive and negative) for the author. Add this summary to the story bible's feedback log.</p>
+                        </div>
+                         <div class="prompt-item">
+                             <strong>33. Role: Consistency Auditor (Overall)</strong>
+                             <p>Perform a final review of the *entire* story bible and manuscript draft, checking for consistency across characters, plot, worldbuilding, tone, and terminology. Flag any remaining discrepancies.</p>
+                         </div>
+                         <div class="prompt-item">
+                            <strong>53. Role: Sensitivity Reader Consultant (Simulated)</strong>
+                            <p>Review the planned depiction of [Specific Group/Topic] in the Story Bible outline. Identify potential areas that might require careful handling or consultation with a sensitivity reader to avoid harmful stereotypes or inaccuracies.</p>
+                         </div>
+                         <div class="prompt-item">
+                             <strong>44. Role: Continuity Supervisor</strong>
+                             <p>Cross-reference character descriptions, timelines, and world details between Chapter [X] and Chapter [Y] in the Story Bible drafts to ensure continuity. Flag discrepancies.</p>
+                         </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Publishing Preparation & Meta</summary>
+                     <div>
+                         <div class="prompt-item">
+                             <strong>32. Role: Research Assistant (Fiction)</strong>
+                             <p>Compile a list of credible resources (books, articles, documentaries) needed to ensure accuracy for the historical/scientific/cultural elements of [Story Aspect]. Add links/references to the story bible.</p>
+                         </div>
+                         <div class="prompt-item">
+                             <strong>39. Role: Query Letter Consultant</strong>
+                             <p>Draft a compelling query letter for the novel based on the story bible's logline, synopsis, and target genre.</p>
+                         </div>
+                         <div class="prompt-item">
+                             <strong>40. Role: Synopsis Crafter</strong>
+                             <p>Write a concise (1-page) and engaging synopsis of the entire novel suitable for agent/publisher submissions, using the story bible outline.</p>
+                         </div>
+                         <div class="prompt-item">
+                             <strong>41. Role: Book Blurb Writer</strong>
+                             <p>Generate three different back-cover blurbs for the novel, each targeting a slightly different reader angle.</p>
+                         </div>
+                         <div class="prompt-item">
+                             <strong>42. Role: Author Platform Advisor</strong>
+                             <p>Suggest 3 concrete steps the author can take to build their platform relevant to the book's genre and themes.</p>
+                         </div>
+                         <div class="prompt-item">
+                             <strong>43. Role: Marketing Angle Brainstormer</strong>
+                             <p>Identify 3 unique marketing angles or hooks for the novel based on its concept, themes, and target audience. Document these in the story bible's marketing section.</p>
+                         </div>
+                         <div class="prompt-item">
+                             <strong>44. Role: Title Generator</strong>
+                             <p>Brainstorm 10 potential titles for the novel, considering genre conventions and memorability.</p>
+                         </div>
+                         <div class="prompt-item">
+                             <strong>45. Role: Manuscript Formatting Advisor</strong>
+                              <p>Outline the basic industry standards for formatting a fiction manuscript (font, spacing, indentation, title page) for submission. Add as a checklist to the Story Bible.</p>
+                         </div>
+                         <div class="prompt-item">
+                             <strong>46. Role: Series Bible Architect</strong>
+                             <p>If this book is part of a series, outline the key sections needed for a Series Bible (overarching plot, recurring characters, world evolution, future book concepts) based on the current Story Bible.</p>
+                         </div>
+                         <div class="prompt-item">
+                             <strong>47. Role: Rights Management Notetaker (Basic)</strong>
+                             <p>Add a section to the Story Bible to note basic rights information (e.g., planned territory focus, any existing agreements if applicable - for author's reference).</p>
+                         </div>
+                          <div class="prompt-item">
+                             <strong>48. Role: Development Log Summarizer</strong>
+                             <p>Condense the key decisions and changes recorded in the Story Bible's development log into a concise summary highlighting the project's evolution.</p>
+                         </div>
+                         <div class="prompt-item">
+                             <strong>49. Role: Elevator Pitch Refiner</strong>
+                             <p>Take the logline and core concept and condense them into a compelling 30-second verbal pitch.</p>
+                         </div>
+                          <div class="prompt-item">
+                            <strong>54. Role: Series Potential Assessor</strong>
+                             <p>Evaluate the story's potential for sequels or spin-offs based on unresolved plot threads, world depth, and character popularity. Outline potential future arcs in the bible.</p>
+                         </div>
+                          <div class="prompt-item">
+                            <strong>53. Role: Word Count Tracker & Goal Setter</strong>
+                             <p>Based on the target manuscript length [Word Count Goal] and timeline [Deadline], calculate suggested daily or weekly word count goals. Add a tracking template to the Story Bible.</p>
+                         </div>
+                    </div>
+                </details>
+
+            </div>
+        </details> <!-- End Part 2 -->
+
+    </main>
+
+</body>
+</html>

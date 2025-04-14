@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prismatica: Echoes of Infinity - Unified Story Bible & Development History</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a; /* Deep Slate Blue */
+            --bg-secondary: #1e293b; /* Medium Slate */
+            --bg-tertiary: #334155; /* Lighter Slate */
+            --text-primary: #e2e8f0; /* Light Gray */
+            --text-secondary: #94a3b8; /* Medium Gray */
+            --accent-primary: #38bdf8; /* Sky Blue */
+            --accent-secondary: #67e8f9; /* Cyan */
+            --border-color: #475569; /* Slate Border */
+            --error-color: #f87171; /* Red */
+            --code-bg: #020617; /* Very Dark Blue */
+            --font-body: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --font-heading: 'Orbitron', sans-serif; /* Sci-fi feel */
+            --transition-speed: 0.3s;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', var(--font-body);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 16px;
+            padding: 1rem;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--accent-primary);
+            margin-bottom: 0.8rem;
+            line-height: 1.3;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 5px var(--accent-secondary);
+        }
+        
+        h2.subtitle {
+             text-align:center; 
+             font-size: 1.2rem; /* Smaller than H1 */
+             color: var(--text-secondary); 
+             margin-bottom: 2rem;
+             font-family: 'Roboto', var(--font-body); /* Use body font for subtitle */
+             font-weight: 400;
+        }
+
+        p, ul, ol, dl {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--accent-secondary);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .logline {
+            text-align: center;
+            font-style: italic;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 2rem auto;
+            padding: 0.5rem;
+            border: 1px dashed var(--border-color);
+            background-color: var(--bg-secondary);
+            border-radius: 4px;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 2rem auto;
+            background-color: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        details {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            overflow: hidden; /* Prevents content spill during animation */
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        details[open] {
+            background-color: var(--bg-secondary); /* Slightly darker when open */
+        }
+
+        summary {
+            font-family: var(--font-heading);
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            background-color: var(--bg-tertiary); /* Same as closed details */
+            color: var(--accent-primary);
+            list-style: none; /* Remove default marker */
+            position: relative;
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        summary:hover {
+            background-color: #4b5a70; /* Slightly lighter hover */
+        }
+
+        summary::marker, /* Firefox */
+        summary::-webkit-details-marker /* Chrome/Safari */ {
+            display: none;
+        }
+
+        summary::before { /* Custom arrow marker */
+            content: '►';
+            position: absolute;
+            left: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%) rotate(0deg);
+            font-size: 0.8em;
+            color: var(--accent-secondary);
+            transition: transform var(--transition-speed) ease;
+        }
+
+        details[open] > summary::before {
+            transform: translateY(-50%) rotate(90deg);
+        }
+
+        details > div, details > ul, details > p, details > dl {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .character-card, .subplot-card, .worldbuilding-item, .concept-item, .review-section {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .character-card h3, .subplot-card h3, .concept-item h3, .review-section h3 {
+            margin-top: 0;
+            color: var(--accent-secondary);
+        }
+
+        dl dt {
+            font-weight: bold;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        dl dd {
+            margin-left: 1.5rem;
+        }
+        
+        dl dd ul, dl dd p { /* Indent lists/paras within dd */
+             margin-left: 1rem; 
+             margin-bottom: 0.5rem;
+        }
+        
+        ul, ol {
+             padding-left: 1.5rem; /* Standard indent for lists */
+        }
+
+        .chapter-summary-prose p {
+           margin-bottom: 0.8em;
+           white-space: pre-wrap; /* Ensure paragraphs from JSON render correctly */
+        }
+
+        .revision-history {
+            margin-top: 1.5rem;
+            border: 1px dashed var(--border-color);
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .revision-history h4 {
+            color: var(--accent-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .revision-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dotted var(--border-color);
+        }
+        .revision-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .revision-item strong {
+            color: var(--text-secondary);
+            display: block;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: #d1d5db; /* Lighter gray for code */
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+            margin-top: 0.5rem;
+            border: 1px solid var(--border-color);
+            white-space: pre-wrap; /* Allow wrapping */
+            word-wrap: break-word; /* Break long words */
+        }
+
+        code {
+           font-family: 'Courier New', Courier, monospace;
+           background-color: var(--code-bg);
+           padding: 0.2em 0.4em;
+           border-radius: 3px;
+           font-size: 0.9em;
+        }
+        
+        blockquote {
+             background-color: var(--bg-tertiary);
+             border-left: 5px solid var(--accent-primary);
+             padding: 1rem;
+             margin-left: 1rem;
+             margin-bottom: 1rem;
+             font-style: italic;
+             color: var(--text-secondary);
+        }
+
+        .placeholder {
+            font-style: italic;
+            color: var(--text-secondary);
+            border: 1px dashed var(--border-color);
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.1);
+            display: block; /* Make it block level for structure */
+            border-radius: 3px;
+            margin-top: 0.5rem;
+        }
+
+        .placeholder h4 {
+            color: var(--accent-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .contribution-item h4 {
+             color: var(--accent-secondary);
+             margin-bottom: 0.3rem;
+        }
+         .contribution-item strong {
+             color: var(--text-secondary);
+             display: block;
+             margin-bottom: 0.5rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.6rem;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--bg-tertiary);
+            color: var(--accent-primary);
+            font-family: var(--font-heading);
+        }
+        
+        td {
+            background-color: var(--bg-primary);
+        }
+        
+        .review-section h4 {
+            color: var(--accent-secondary);
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.3rem;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 0.5rem;
+                font-size: 15px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            main {
+                padding: 1rem;
+            }
+            summary {
+                font-size: 1.1rem;
+                padding: 0.6rem 1rem;
+            }
+             summary::before {
+                left: 0.3rem;
+            }
+            details > div, details > ul, details > p, details > dl {
+                padding: 0.8rem 1rem;
+            }
+             dl dd {
+                 margin-left: 1rem;
+            }
+             dl dd ul, dl dd p {
+                 margin-left: 0.5rem;
+             }
+             ul, ol {
+                 padding-left: 1rem;
+             }
+              blockquote {
+                 margin-left: 0.5rem;
+             }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Prismatica: Echoes of Infinity</h1>
+        <p class="logline">In the heart of Antarctica, two elite military teams discover 'God's Prism' is not a gateway but a tragically flawed sanctuary against the horrifying void of 'eht tfihs'. When their desperate actions breach the Prism and inadvertently unleash cosmic corruption within, they must confront the time-dilated, traumatized creators, navigate a reality fractured by opposing time flows, and grapple with the terrifying ambiguity of an alien blade remnant – their only potential weapon – whose true, devastating origin holds the key to the apocalypse it seemingly helped them avert.</p>
+        <h2 class="subtitle">Unified Story Bible & Development History (Based on V2.2 & Post-V2.2 Logs)</h2>
+    </header>
+
+    <main>
+
+        <!-- CORE STORY BIBLE SECTIONS (Based on V2.2) -->
+        <details open>
+            <summary>Core Story Information</summary>
+            <div>
+                <details>
+                    <summary>Genre & Title</summary>
+                    <div>
+                        <p><strong>Title:</strong> Prismatica: Echoes of Infinity</p>
+                        <p><strong>Genre:</strong> Military Science Fiction / Cosmic Horror / Portal Fantasy</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Setting</summary>
+                    <div class="worldbuilding-item">
+                        <p><strong>Description:</strong> Primary locations include:</p>
+                         <ul>
+                            <li><strong>'Deep Freeze' Command Base:</strong> State-of-the-art, subterranean Antarctic facility; high-tech, claustrophobic.</li>
+                            <li><strong>The Prism Chamber:</strong> Colossal cavern housing the artifact; crackling energy, frost-covered except for the Prism.</li>
+                            <li><strong>Interdimensional Locales:</strong> Initial dimensions explored (e.g., bioluminescent jungle, cyclopean ruins).</li>
+                            <li><strong>Creator City (Dimension Gamma-7):</strong> Vast, silent, elegant structures of iridescent metal; location of Prism's 'scar'.</li>
+                            <li><strong>'Eht Tfihs':</strong> Paradoxical negative dimension; absolute void, backwards time flow relative to observer, contains decaying 'smokey negative' echoes of past objects/beings ('rotting while de-aging'), inherently hostile to normal matter/energy.</li>
+                            <li><strong>Inner Prism Space (Post-Ch 19 Breach):</strong> An infinite void containing a self-constructing/rotating hypercube structure holding countless 'universe marbles' (miniature, contained realities, each potentially a hypercube), overseen by a vast Creator structure/city. <strong>Crucially, this space is revealed to be *compromised* by invading 'negative space'/'eht tfihs' corruption</strong> (visible as cracks in the void, flickering/decaying marbles) as a direct result of the protagonists breaching the outer shell via temporal short circuit.</li>
+                        </ul>
+                        <p><strong>Time Period:</strong> Near-Future (approx. 20-30 years from present day)</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Synopsis</summary>
+                    <div class="Synopsis">
+                        <p>Deep beneath the Antarctic ice, Project Chimera sends two elite military teams—the analytical Pathfinders led by Captain Eva Rostova and the hardened Trailblazers under Major Kaelen Vance—through the 'God's Prism', an artifact initially believed to be an interdimensional gateway. Early explorations reveal wonders and horrors, but the true nightmare begins when they uncover evidence of the Prism's creators: an advanced civilization seemingly wiped out millions of years ago by the very cataclysm the Prism was involved in. Rostova, accidentally exposed to residual Creator energy, experiences temporal echoes before a disastrous portal transit casts her into 'eht tfihs'—a horrifying negative dimension where time flows backwards.</p>
+                        <p>Lost for weeks that feel like an eternity, Rostova survives the void's unraveling influence only by bonding with an enigmatic crystalline shard found adrift in the darkness—the Blade Remnant. Meanwhile, Vance assumes command, grappling with the terrible truth deduced from Creator logs: the Prism wasn't a gateway, but a **flawed sanctuary** built against the encroaching horror of 'eht tfihs', and its activation failure caused the Creators' doom. When faint energy signals hint Rostova might be alive within the void, a desperate experiment brings her back, traumatized and wielding the Blade Remnant, warning that their intrusions are damaging the failing sanctuary further.</p>
+                        <p>Internal Prism defenses activate, culminating in a devastating attack where Sergeant Major Petrova **sacrifices herself**, unleashing the Blade Remnant's lethal temporal power to save the team. Grief-stricken but resolute, Rostova and Vance realize they must confront whatever remains inside the Prism. A critical injury to Gunnery Sergeant Jones forces their hand: using the Blade Remnant together, they attempt a controlled breach into the Prism's core. The attempt backfires catastrophically, shattering the inner defenses and **unleashing waves of 'eht tfihs' corruption** directly into the Prism's internal hypercube structure.</p>
+                        <p>Inside, they confront the last Creators, revealed to be trapped in extreme time dilation mere moments from their original apocalypse due to **"Causal Jetlag"**—a temporal side effect of the Prism's ancient FTL jump. As mutual understanding dawns, horror follows: the Creators recognize the Blade Remnant's 'eht tfihs' signature, realizing it's intrinsically linked to their doom. Seeing the blade as a vector for the void and their sanctuary now irrevocably compromised by the human-caused breach, the Creators make a desperate choice. In a final act (perhaps healing Gunny Jones as a parting gesture), they use their technology to seize the Blade Remnant and initiate a chaotic warp, **taking themselves and the artifact out of reality** to contain its evil.</p>
+                        <p>The team is left bladeless, reeling from their losses, stranded within the corrupted, unstable Inner Prism. They face a harrowing escape, return to Deep Freeze, and the establishment of a permanent, tense containment mission around the dangerous artifact. Yet, the true horror is saved for last: **the final twist reveals** the consciousness within the Blade Remnant wasn't merely a victim, but belonged to the very Creator entity who, out of nihilistic despair, deliberately invited 'eht tfihs' and orchestrated the apocalypse millions of years ago. The "weapon" they relied on was the architect of the original doom all along, its departure not a loss, but an unrecognized act of vital containment.</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Story Beat Method & Key Beats</summary>
+                    <div>
+                        <p><strong>Selected Method:</strong> Three-Act Structure (adapted for multiple POVs and interwoven subplots)</p>
+                        <p><strong>Reason For Selection:</strong> Provides a robust framework for the high concept, character arcs, escalating stakes (exploration -> survival -> cosmic horror -> complex confrontation), major twists, and the planned ambiguous ending.</p>
+                        <h4>Key Story Beats:</h4>
+                        <ul>
+                             <li><strong>Opening Image (Ch 1):</strong> Tense, controlled | Foreboding anticipation, professionalism masking tension</li>
+                             <li><strong>Inciting Incident (Ch 2):</strong> Sudden, disruptive | Awe, shock, fear, irreversible commitment (Uncontrolled activation)</li>
+                             <li><strong>First Plot Point (End of Act I - Ch 3):</strong> Deliberate, building tension | Wonder laced with danger, crossing threshold into first dimension</li>
+                             <li><strong>First Pinch Point (Ch 5):</strong> Sharp, high tension | Fear, vulnerability, first combat/loss against alien threat</li>
+                             <li><strong>Midpoint (Ch 8):</strong> Revelatory, escalating | Shock, cosmic dread, paradigm shift (Creators extinct due to Prism failure vs 'eht tfihs')</li>
+                             <li><strong>Second Pinch Point (Ch 10 / Ch 17):</strong> Desperate, high stakes | Loss (Rostova lost to 'eht tfihs'), later compounded by Sacrifice (Petrova's death)</li>
+                             <li><strong>Second Plot Point / Climax Setup (Ch 12-18 Culminating in Ch 19 opening):</strong> Revelatory/Escalating | Shock (Rostova's return/truth), Grief (Petrova's loss), Desperation (Gunny's injury), Determination (Joint stab)</li>
+                             <li><strong>Final Battle (Climax - Ch 19-23):</strong> Frantic, relentless, complex | Heroic struggle, cosmic horror, moral ambiguity, desperation, potential sacrifice (Breaching Inner Prism, Confronting Creators, 'eht tfihs' corruption, blade's nature, Creator departure)</li>
+                             <li><strong>Resolution (Ch 24-25 + Interstitial 2):</strong> Decelerating, reflective, then shocking | Bittersweet relief/cost, heavy responsibility, grief, changed perspective, capped by devastating final reveal (blade's true origin/action)</li>
+                        </ul>
+                    </div>
+                </details>
+
+                 <details>
+                    <summary>Themes</summary>
+                    <div>
+                        <p><strong>Central Themes:</strong> Unintended consequences, the burden of responsibility, survival against incomprehensible cosmic horror, the fallibility of perception, the ambiguity between salvation and destruction, trauma and resilience, the cost of knowledge, leadership under extreme pressure.</p>
+                        <p><strong>Unique Elements & Concepts:</strong></p>
+                         <ul>
+                            <li><strong>Prism's True Nature:</strong> Failed sanctuary vs 'eht tfihs', holding time-dilated Creators affected by "Causal Jetlag".</li>
+                            <li><strong>'Eht Tfihs':</strong> Defined negative dimension with specific paradoxical rules (backwards time, decaying echoes).</li>
+                            <li><strong>Blade Remnant:** Ambiguous artifact - tragic victim revealed as potential architect of doom.</li>
+                            <li><strong>Inner Prism Corruption:</strong> Protagonists inadvertently worsen sanctuary's state via breach.</li>
+                            <li><strong>Temporal Short Circuit:** Specific clashing time-flow mechanism for breach.</li>
+                            <li><strong>Creators' State:** Time-dilated, traumatized, seconds from apocalypse, mistaking protagonists for enemies.</li>
+                            <li><strong>Final Twist:** Blade Remnant entity deliberately ended its civilization by inviting 'eht tfihs'.</li>
+                            <li><strong>Protagonist Culpability:** Direct responsibility for negative consequences (Inner Prism breach/corruption).</li>
+                            <li><strong>Character Sacrifice:** Significant loss (Petrova) impacting core dynamics.</li>
+                            <li><strong>Merged Team Future:** Clear setup for sequel series exploring internal Prism.</li>
+                        </ul>
+                    </div>
+                </details>
+            </div>
+        </details> <!-- End Core Story Info -->
+
+        <details>
+            <summary>Characters</summary>
+             <div>
+                <details>
+                    <summary>Main Characters</summary>
+                    <div>
+                        <div class="character-card">
+                            <h3>Captain Eva Rostova</h3>
+                            <dl>
+                                <dt>Age:</dt><dd>32</dd>
+                                <dt>Gender:</dt><dd>Female</dd>
+                                <dt>Occupation:</dt><dd>Commander, Pathfinder Team -> Co-leader (effectively), Merged Unit</dd>
+                                <dt>Physical Description:</dt><dd>Around 5'9", lean, athletic. Dark hair, sharp grey eyes, faint scar. Post-Ch 13: Bears physical/mental scars from 'eht tfihs', potentially sensitized to void energy/temporal distortions, exhibits signs of trauma/hyper-awareness balanced with hard-won resilience.</dd>
+                                <dt>Background:</dt><dd>Diplomats' daughter, military academy (recon/xenogeology). Haunted by past mission failure. Touched Prism fragments, experienced temporal echoes, fell into 'eht tfihs', survived via Blade Remnant connection and agonizing escape. Carries deep grief over Petrova's sacrifice.</dd>
+                                <dt>Personality Traits:</dt><dd>Highly intelligent, analytical, methodical (tempered by trauma/intuition), decisive, fiercely protective. Post-trauma: More vulnerable but also fiercely determined, grapples with immense responsibility and ambiguity.</dd>
+                                <dt>Motivations:</dt><dd>Initially: Lead, discover, redeem. Post-Ch13: Survive, warn Earth, understand/contain Prism & 'eht tfihs', understand the Blade Remnant, protect team, share command burden with Vance, atone for unintended consequences (Inner Prism corruption).</dd>
+                                <dt>Fears:</dt><dd>Making catastrophic errors, losing control, the void ('eht tfihs'), the blade's true nature/influence, failing her team (esp. after Petrova), the potential cost of using the blade.</dd>
+                                <dt>Dreams:</dt><dd>Shift from discovery to containment, understanding, finding a stable resolution, honoring sacrifices made.</dd>
+                                <dt>Flaws:</dt><dd>Initial over-caution replaced by potential recklessness born of trauma/desperation? Difficulty processing trauma, potentially unreliable perception due to 'eht tfihs' exposure/blade connection.</dd>
+                                <dt>Idiosyncrasies:</dt><dd>Pre-trauma habits likely altered. May show sensitivity to temporal/spatial anomalies, intense focus when near blade.</dd>
+                                <dt>Social Perception:</dt><dd>Respected leader, seen as changed/more intense post-return. Her bond with Vance becomes noticeable.</dd>
+                                <dt>Relationship To Other Characters:</dt><dd>Deep, complex partnership with Vance forged through shared trauma/command. Profound grief/responsibility regarding Petrova. Intrinsic, dangerous connection to the Blade Remnant. Wary of Thorne.</dd>
+                                <dt>Development Milestones:</dt><dd>'Eht Tfihs' ordeal & return, revealing Prism truth, processing Petrova's death, accepting Vance's support (hug), joint stab action, confronting Creators & consequences.</dd>
+                            </dl>
+                        </div>
+                        <div class="character-card">
+                            <h3>Major Kaelen 'Kael' Vance</h3>
+                            <dl>
+                                <dt>Age:</dt><dd>35</dd>
+                                <dt>Gender:</dt><dd>Male</dd>
+                                <dt>Occupation:</dt><dd>Commander, Trailblazer Team -> Co-leader (effectively), Merged Unit</dd>
+                                <dt>Physical Description:</dt><dd>Around 6'1", solid, muscular. Sandy hair, weathered face, intense blue eyes. Carries command weight more openly now, cynicism tempered by empathy/responsibility.</dd>
+                                <dt>Background:</dt><dd>Military lifer, combat veteran. Hidden grief (brother). Thrust into overall command during Rostova's absence, leading to significant growth. Witnessed/learned of Petrova's sacrifice. Dealing with Gunny's critical injury post-Ch 19.</dd>
+                                <dt>Personality Traits:</dt><dd>Adaptable, pragmatic, intuitive (honed), courageous, charismatic leader, fiercely protective. Has integrated more analytical thinking, more openly empathetic (esp. towards Rostova).</dd>
+                                <dt>Motivations:</dt><dd>Team survival/well-being paramount. Protect Rostova. Contain Prism threat. Avenge/save Gunny. Shoulder command responsibility effectively. Find workable solutions in impossible situations. Understand true stakes.</dd>
+                                <dt>Fears:</dt><dd>Losing more people (esp. Gunny/Rostova), failing command responsibility, uncontrollable threats, the cosmic implications.</dd>
+                                <dt>Dreams:</dt><dd>Getting survivors home, achieving stable containment/resolution, finding personal peace.</dd>
+                                <dt>Flaws:</dt><dd>Residual impulsiveness (now balanced?), potential for ruthlessness when pushed, difficulty fully trusting abstract threats initially.</dd>
+                                <dt>Idiosyncrasies:</dt><dd>Stim-gum, checks sightlines (perhaps more intensely now), dark humor as coping mechanism.</dd>
+                                <dt>Social Perception:</dt><dd>'Soldier's soldier', inspires loyalty. Now seen as a more rounded, capable overall commander. His partnership with Rostova is evident.</dd>
+                                <dt>Relationship To Other Characters:</dt><dd>Deep partnership with Rostova built on mutual respect/shared trauma. Fiercely protective/concerned for Gunny. Relies on combined team NCOs. Manages Thorne's ambition.</dd>
+                                <dt>Development Milestones:</dt><dd>Taking lead command, learning from Rostova's methods/absence, offering crucial support (hug), joint stab action, confronting Creators/consequences.</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Secondary Characters</summary>
+                     <div>
+                         <div class="character-card">
+                            <h3>Dr. Aris Thorne</h3>
+                            <dl>
+                                <dt>Role:</dt><dd>Lead Civilian Scientist / Xeno-archaeologist</dd>
+                                <dt>Relationship To Main Character:</dt><dd>Provides vital (often dangerous) theories and analysis regarding Prism, 'eht tfihs', blade, Creator tech. His relentless pursuit of knowledge often clashes with command priorities and safety concerns.</dd>
+                                <dt>Key Characteristics:</dt><dd>Brilliant, obsessive, eccentric, prioritizes discovery over ethics/safety, potentially sees catastrophe as ultimate data source, mid-50s, unkempt appearance.</dd>
+                                <dt>Contribution To Story:</dt><dd>Drives understanding of the phenomena but often inadvertently increases risk. Represents theme of unchecked scientific ambition. His theories (e.g., temporal short circuit) are vital but potentially flawed/incomplete.</dd>
+                            </dl>
+                        </div>
+                         <div class="character-card">
+                            <h3>Sergeant Major Lena Petrova</h3>
+                             <dl>
+                                 <dt>Role:</dt><dd>Pathfinder Team Senior NCO / Eva's Right Hand / <strong>Sacrificial Hero</strong></dd>
+                                 <dt>Relationship To Main Character:</dt><dd>Deeply loyal, experienced, practical anchor for Rostova and Pathfinders.</dd>
+                                 <dt>Key Characteristics:</dt><dd>Experienced, no-nonsense, highly competent, calm under fire, protective, observant, stern but fair.</dd>
+                                 <dt>Contribution To Story:</dt><dd>Maintains Pathfinder effectiveness. Supports Rostova. <strong>Dies heroically in Chapter 17, sacrificing herself by attempting to wield the Blade Remnant against the micro-swarm defence, causing a temporal blast.</strong> Her death profoundly impacts Rostova, Vance, and the team, raising stakes and solidifying bonds.</dd>
+                            </dl>
+                        </div>
+                         <div class="character-card">
+                            <h3>Gunnery Sergeant Marcus 'Gunny' Jones</h3>
+                             <dl>
+                                 <dt>Role:</dt><dd>Trailblazer Team Senior NCO / Kael's Confidante / <strong>Catalyst Victim</strong></dd>
+                                 <dt>Relationship To Main Character:</dt><dd>Veteran soldier, Vance's long-time comrade, voice of cynical experience.</dd>
+                                 <dt>Key Characteristics:</dt><dd>Cynical, dependable, expert survivalist/marksman, dry wit, protective of Vance/team.</dd>
+                                 <dt>Contribution To Story:</dt><dd>Provides combat expertise, grounding for Vance. <strong>Critically injured (impaled) by Creator black lightning weapon at the start of Chapter 19,</strong> serving as a major catalyst for Vance's desperate actions and adding immediate time pressure/rescue motivation for subsequent chapters. (Potential Beat: Healed by Creators in Ch 23).</dd>
+                            </dl>
+                        </div>
+                        <p><em>(Other minor team members as needed for specific scenes or casualties.)</em></p>
+                    </div>
+                </details>
+            </div>
+        </details> <!-- End Characters -->
+
+        <details>
+            <summary>Subplots</summary>
+             <div>
+                 <div class="subplot-card">
+                    <h3>Rostova/Vance Partnership</h3>
+                    <p><strong>Description:</strong> Rostova/Vance professional rivalry evolving into deep, interdependent partnership forged in trauma/shared command.</p>
+                    <p><strong>Relation To Main Plot:</strong> Crucial for leadership, tactical decisions, joint actions, team unity, and navigating the moral ambiguities.</p>
+                    <p><strong>Characters Involved:</strong> Rostova, Vance, their teams</p>
+                    <p><strong>Thematic Relevance:</strong> Leadership, trust, empathy, unity vs. cosmic threat, shared burden.</p>
+                </div>
+                <div class="subplot-card">
+                    <h3>Thorne's Obsession</h3>
+                    <p><strong>Description:</strong> Dr. Thorne's obsessive, ethically ambiguous pursuit of knowledge regarding Prism, 'eht tfihs', Creators, Blade.</p>
+                    <p><strong>Relation To Main Plot:</strong> Drives key theories/risks, potential source of conflict/complication, represents danger of knowledge without wisdom.</p>
+                    <p><strong>Characters Involved:</strong> Thorne, Rostova, Vance</p>
+                    <p><strong>Thematic Relevance:</strong> Scientific ethics, obsession, cost/danger of knowledge, hubris.</p>
+                </div>
+                <div class="subplot-card">
+                    <h3>Vance's Grief & Protection</h3>
+                    <p><strong>Description:</strong> Kael Vance's hidden grief (brother) amplified by Petrova's death and potential loss/injury of Gunny.</p>
+                    <p><strong>Relation To Main Plot:</strong> Deepens personal stakes to command decisions, facing loss, fuels protective instincts (esp. towards Rostova & Gunny).</p>
+                    <p><strong>Characters Involved:</strong> Vance, Gunny, (memory of Petrova)</p>
+                    <p><strong>Thematic Relevance:</strong> Grief, trauma, loyalty, protection, leadership responsibility.</p>
+                </div>
+                 <div class="subplot-card">
+                    <h3>Rostova's Trauma & Burden</h3>
+                    <p><strong>Description:</strong> Eva Rostova dealing with compounded trauma (past failure, 'eht tfihs' ordeal, Petrova's loss, blade connection, culpability for breach).</p>
+                    <p><strong>Relation To Main Plot:</strong> Impacts her leadership, perception, resilience, relationship with blade & Vance, drives her need for answers/containment.</p>
+                    <p><strong>Characters Involved:</strong> Rostova</p>
+                    <p><strong>Thematic Relevance:</strong> Trauma, resilience, command burden, consequence, ambiguity, connection to the alien.</p>
+                </div>
+                 <div class="subplot-card">
+                    <h3>The Blade Remnant Mystery</h3>
+                    <p><strong>Description:</strong> The true nature, origin, and alignment of the Blade Remnant – seemingly a tool/key, source of power, linked to Rostova's survival, but deeply ambiguous and dangerous.</p>
+                    <p><strong>Relation To Main Plot:</strong> Central mystery/artifact. Drives key plot points (Rostova's escape, Petrova's sacrifice, breach mechanism, Creator conflict). Its ambiguity creates suspense, culminating in final devastating twist.</p>
+                    <p><strong>Characters Involved:</strong> Rostova (primary wielder/connection), Vance (witness/partner), Petrova (victim), Thorne (analyst), Creators (recognize/fear/use)</p>
+                    <p><strong>Thematic Relevance:</strong> Ambiguity, perception vs reality, nature of consciousness, corruption, betrayal, consequence, the seductive danger of power/knowledge.</p>
+                </div>
+            </div>
+        </details> <!-- End Subplots -->
+
+        <details>
+            <summary>Worldbuilding & Technology</summary>
+             <div class="worldbuilding-item">
+                <h3>Technology & Key Concepts</h3>
+                <dl>
+                    <dt>God's Prism:</dt>
+                    <dd>Failed Creator sanctuary artifact (defense against 'eht tfihs'). Catastrophic activation caused temporal fracture, ejection to Earth, internal preservation failure, partial 'eht tfihs' corruption pre-breach, further corruption post-breach. Contains 'Prism inside Prism' hypercube structure. Cycles linked to flawed internal process/instability.</dd>
+
+                    <dt>Blade Remnant:</dt>
+                    <dd>Fragment of Creator consciousness fused with Prism shard during cataclysm, initially trapped in 'eht tfihs'. Exhibits backwards time flow ('eht tfihs' signature). Can interact with Prism/Creator tech. Intrinsically dangerous. Ambiguous alignment. <strong>Final Twist:</strong> Originated from entity that deliberately invited 'eht tfihs', causing final destruction.</dd>
+
+                    <dt>'Eht Tfihs':</dt>
+                    <dd>Negative dimension, backwards time flow relative to observer, contains decaying 'smokey negative' echoes of past objects/beings ('rotting while de-aging'), hostile void, primary cosmic threat. Source of corruption.</dd>
+
+                    <dt>Creator Tech:</dt>
+                    <dd>Spacetime/dimensional manipulation. Includes automated defenses (black lightning, micro-swarm shapeshifters), vast structures, time dilation fields (internal to Prism, subject to Causal Jetlag), advanced interfaces, localized warp capability.</dd>
+
+                    <dt>Military Tech:</dt>
+                    <dd>Near-future exoskeletons, advanced sensors, experimental energy weapons, tactical gear, comms systems.</dd>
+
+                    <dt>Causal Jetlag (Concept):</dt>
+                    <dd>Explanation for extreme Creator time dilation. Posits that the instantaneous FTL dimensional jump of the Prism induced a 'temporal inertia' or 'spacetime ripple/wake'. The Prism arrived instantly, but its internal timeframe remained anchored relative to the moment of departure, 'ahead' of its own settling spacetime effect, causing extreme dilation as a persistent side effect, not just a deliberate shield. Provides a mechanistic explanation rooted in FTL consequences, enhancing tragedy and allowing rapid Creator realization upon receiving external temporal data.</dd>
+                     <dt>Temporal Short Circuit:</dt>
+                    <dd>Mechanism for breaching the Inner Prism (Ch 19). Occurs when the Blade Remnant's intrinsic backwards time flow ('eht tfihs' energy) is forced into direct, high-energy contact with the Prism's internal forward (or corrupted) time flow, causing a localized reality breakdown/tear rather than a clean interface.</dd>
+                </dl>
+             </div>
+             <div class="worldbuilding-item">
+                <h3>Political & Cultural Context</h3>
+                <dl>
+                    <dt>Political Structure:</dt>
+                    <dd>Antarctic Accord Scientific Directorate oversees Deep Freeze. Likely bureaucratic, potentially prone to panic/conflicting orders from afar when faced with the true situation.</dd>
+                    <dt>Military Culture:</dt>
+                    <dd>Hierarchy, discipline strained by events. Pathfinder (recon/science focus) & Trailblazer (combat/survival focus) cultures merge through shared trauma/necessity under joint Rostova/Vance command.</dd>
+                    <dt>Creator Culture (Inferred):</dt>
+                    <dd>Highly advanced, ancient civilization that faced existential threat ('eht tfihs'). Built Prism as desperate sanctuary. Activation failed catastrophically. Those encountered inside are extremely time-dilated (via Causal Jetlag), seconds from their apocalypse, likely traumatized, defensive, and initially mistaking protagonists for agents of 'eht tfihs' due to the breach and blade. <strong>Final Twist Implication:</strong> Possible nihilistic/despairing faction or individual motivation within Creators at the end, linked to the Blade Remnant's origin.</dd>
+                </dl>
+             </div>
+              <div class="worldbuilding-item">
+                <h3>Relevant History</h3>
+                <dl>
+                    <dt>Prism Discovery:</dt>
+                    <dd>Classified Antarctic find under the ice.</dd>
+                    <dt>Project Chimera:</dt>
+                    <dd>Codename for the joint military-scientific exploration mission involving Pathfinders and Trailblazers.</dd>
+                    <dt>Creator History:</dt>
+                    <dd>Ancient civilization faced 'eht tfihs'. Built Prism as sanctuary. Activation failed catastrophically due to 'eht tfihs' breach AND potential internal sabotage (linked to the blade's origin - final twist). Prism fractured/ejected to Earth. Blade Remnant formed/acted during this event, becoming trapped in 'eht tfihs' before Rostova encountered it.</dd>
+                </dl>
+             </div>
+        </details> <!-- End Worldbuilding -->
+
+        <details open> <!-- Start Chapters open for easier access -->
+            <summary>Detailed Chapter Summaries & Prose</summary>
+            <div>
+                <details>
+                    <summary>Chapter 1: Beneath the Ice</summary>
+                    <div class="chapter-summary-prose">
+                        <p>The chapter opens with the low hum of advanced life support echoing through sterile, ice-cold corridors carved deep beneath kilometers of Antarctic ice. We follow Captain Eva Rostova, her sharp eyes scanning diagnostic readouts, the weight of command evident in her posture. Contrast this with Major Kaelen Vance and his Trailblazers in the training simulators, practicing dynamic entry tactics for unknown environments – gritty, loud, and practical. They converge near the heavily shielded entrance to the Prism Chamber, the air thick with anticipation and the faint, unnatural tang of ozone. Brief, professional, but tense exchanges reveal their differing philosophies: Rostova emphasizes meticulous analysis and contingency planning; Vance stresses adaptability and immediate threat assessment. Dr. Thorne flits between them, eyes gleaming with obsessive curiosity behind thick spectacles, reviewing sensor data that hints at the impossible artifact humming behind reinforced bulkheads. The final countdown to the first *controlled* activation begins, the base holding its breath.</p>
+                    </div>
+                     <div class="revisionHistory">
+                        <p><em>(No specific revision history noted for this chapter in source files.)</em></p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Chapter 2: Unscheduled Departure</summary>
+                     <div class="chapter-summary-prose">
+                        <p>Before the controlled sequence can initiate, alarms blare. The Prism Chamber's containment field spikes wildly. Inside, the crystalline wall erupts not with controlled energy, but a blinding, disorienting cascade of impossible colors and deafening, discordant *sound*. Lights flicker throughout the base. Rostova and Vance, caught near the observation viewport, witness a momentary, sickening vortex open within the Prism – a swirling panorama of alien jungle under a violet sky, gigantic insectoid shapes moving sluggishly, before it snaps shut with a concussive boom that cracks the reinforced glass. Sensors register a massive energy discharge and a temporal anomaly lasting *approximately* 22 minutes. The chaos subsides, leaving ringing ears and frayed nerves. Emergency comms crackle – high command, processing the sensor data, confirms the artifact is a gateway. The mission parameters are instantly updated: Proceed with exploration. The uncontrolled event underscores the immense power and danger.</p>
+                    </div>
+                    <div class="revisionHistory">
+                        <p><em>(No specific revision history noted for this chapter in source files.)</em></p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Chapter 3: First Step</summary>
+                    <div class="chapter-summary-prose">
+                         <p>Days later, the atmosphere is thick with methodical preparation. Pathfinders, under Rostova's precise direction, calibrate environmental sensors, secure sample containers, and run multi-spectral scans of the now-quiescent Prism. Their gear is sleek, focused on analysis. Trailblazers, led by Vance and Gunny Jones, check weapons systems designed for unknown threats, reinforce exosuit armor plating, and run combat drills. Their equipment is heavier, geared for survival. Rostova briefs on approach vectors and data priorities; Vance counters with overlapping fields of fire and fallback points. Dr. Thorne provides a hasty analysis of the energy signature from the brief opening, warning of potential atmospheric incompatibility. Finally, geared up, the teams stand before the humming crystal wall. As the controlled sequence initiates, the Prism gently liquifies into a shimmering gateway, revealing a different vista – this time, towering, cyclopean ruins under a dim, red sun. On Rostova's command, the Pathfinders step through, followed closely by the Trailblazers. The shimmering portal behind them is their only visible link to Earth. (Plot Point 1).</p>
+                    </div>
+                    <div class="revisionHistory">
+                        <p><em>(No specific revision history noted for this chapter in source files.)</em></p>
+                    </div>
+                </details>
+
+                 <details>
+                    <summary>Chapter 4: Red Sun Ruins</summary>
+                     <div class="chapter-summary-prose">
+                        <p>The air is thin, cold, smelling of dust and ozone. Gravity feels slightly lower. Towering structures of black, non-Euclidean geometry loom over the teams, absorbing the dim red light and casting oppressive shadows. Pathfinders deploy drones, taking atmospheric samples and radiation readings. Trailblazers establish a perimeter, their helmet lights cutting sharp beams through the alien gloom. Communication back through the active portal is strained, staticky. Rostova notes a discrepancy: her internal chronometer feels like more time has passed than the official mission clock relayed from Deep Freeze indicates (Subtle time dilation hint). Vance feels it too. As they explore, Sgt Major Petrova notices an odd flicker on a metallic shard embedded near the portal just *between shifts*, dismissed as sensor interference (Foreshadowing Creator tech phasing). The 22-minute countdown continues, feeling subtly unreliable.</p>
+                    </div>
+                    <div class="revisionHistory">
+                        <p><em>(No specific revision history noted for this chapter in source files.)</em></p>
+                    </div>
+                </details>
+
+                 <details>
+                    <summary>Chapter 5: First Contact, Violent</summary>
+                     <div class="chapter-summary-prose">
+                        <p>While exploring a massive, echoing chamber within the ruins, motion sensors trigger. From the oppressive darkness emerge entities unlike anything conceived: skittering, multi-limbed creatures made of living shadow and sharp, chitinous edges, seemingly blind but drawn to sound/energy, phasing short distances through matter. A fierce, disorienting firefight erupts. Standard firearms have limited effect; experimental energy weapons are better but drain power. A young Trailblazer is pinned, armor breached. Vance leads a desperate retrieval while Rostova coordinates fire/retreat. They fight back to the portal, taking casualties (injuries, maybe critical), spilling through just as it cycles closed. (First Pinch Point).</p>
+                    </div>
+                    <div class="revisionHistory">
+                        <p><em>(No specific revision history noted for this chapter in source files.)</em></p>
+                    </div>
+                </details>
+
+                 <details>
+                    <summary>Chapter 6: Debrief and Division</summary>
+                     <div class="chapter-summary-prose">
+                        <p>The infirmary is busy. Grim debriefing. Rostova presents data on creature phasing/energy absorption. Vance gives blunt tactical assessment, demands countermeasures. Dr. Thorne, excited, focuses on creature biology/potential link to Creator tech. He brings up Petrova's observation of the flickering artifact, theorizing tech exists tangibly *between shifts*. Rostova pushes for stricter protocols. Vance cynically asks where things *go* when phasing, introducing the concept of 'negative dimensions' ('eht tfihs') as theoretical unstable voids the Prism might access, places things could be lost *permanently*. Rift between science and caution widens.</p>
+                    </div>
+                    <div class="revisionHistory">
+                        <p><em>(No specific revision history noted for this chapter in source files.)</em></p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Interstitial Fragment 1: The Unraveling (Creator POV)</summary>
+                    <div class="chapter-summary-prose">
+                         <p>...pressure building, the song of the core dissonant, harmonies fracturing into sheer noise that vibrated through the plasteel decking beneath its many limbs. The air tasted of ionization and panic, thick with the pheromonal tang of collective terror. Before it, the Aperture – *their* Aperture, the Great Work, the escape promised – pulsed not with the steady thrum of controlled transit potential, but with a violent, uncontrolled iridescence. Colors unknown even to its vast spectrum analysis flooded the chamber, bending light, bending *space*. Calculations spiraled into impossibility on the floating displays. Containment fields, woven from captive gravity, buckled and screamed. Through the howling sensory overload, it perceived the others – thousands packed into the embarkation hall beyond the shielding, their collective psychic resonance a rising keen of despair. The Aperture wasn't opening; it was *unraveling*. Its crystalline facets shifted with impossible speed, reflecting not the chamber, but fractured glimpses of... *elsewhere*. Cold. Dark. Empty void. Then, faster than thought, faster than light, the entire structure – kilometers of precisely engineered chronosynclastic crystal – flared with the intensity of a collapsing star. A flash consumed everything. And then... nothing. The chamber was empty. The wall where the Aperture had stood moments before was just... scarred rock, shimmering faintly with residual energy. Silence, absolute and terrifying, crashed down. The tremors began moments later.</p>
+                    </div>
+                     <div class="revisionHistory">
+                        <p><em>(This is a numberless add-on chapter providing backstory/foreshadowing.)</em></p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Chapter 7: City of Silence</summary>
+                    <div class="chapter-summary-prose">
+                        <p>Stepping through the Prism into a new dimension (Gamma-7), the teams find themselves within a structure of breathtaking scale and elegance. Polished, iridescent metal soared into arches that defied gravity, illuminated by soft, internal light sources embedded within the very walls. Intricate geometric patterns flowed across every surface. The air was still, sterile, and cold, carrying a faint metallic scent. It was clearly a hub of immense technological sophistication, far beyond human comprehension – a Creator city, or perhaps a station. But it was utterly, profoundly *empty*. No signs of struggle, no debris, just silence. Pathfinders deployed atmospheric sniffers and scanners; Trailblazers moved cautiously through cavernous halls designed for beings of potentially different scale or locomotion. 'It's like the builders just vanished,' whispered a young Pathfinder, the sound echoing unnervingly. They explored for hours, the perceived time dilation less pronounced here but still present. Deep within a central chamber, larger than any Earthly cathedral, they found it. A vast section of one wall was different – rougher, scarred rock, unlike the smooth, engineered surfaces elsewhere. Embedded within this scar, like shrapnel frozen in place, were several large, multifaceted crystals identical in composition to the Prism itself. And pressed into the rock face, faint but undeniable, was a colossal *negative imprint* – the exact size and shape of the God's Prism artifact currently humming in Deep Freeze base, Antarctica. It looked as though the Prism had been violently *torn* from this wall.</p>
+                    </div>
+                    <div class="revisionHistory">
+                        <p><em>(No specific revision history noted for this chapter in source files.)</em></p>
+                    </div>
+                 </details>
+
+                 <details>
+                    <summary>Chapter 8: Echoes of Extinction</summary>
+                     <div class="chapter-summary-prose">
+                        <p>Following leads from the Prism scar chamber, the teams ventured deeper into the silent city. Sensor readings picked up unusual energy signatures and trace atmospheric contaminants inconsistent with a slow decline. Then, they found the first bodies. Not decomposed, but *mummified*, almost fossilized, caught in instantaneous postures of daily life – or sudden panic. Clustered near transit systems, slumped over consoles, huddled in alcoves. Thousands upon thousands of them, their forms alien yet eerily understandable in their final moments. They were tall, slender beings with multiple limbs, large multifaceted eyes now dull and dusty. Dr. Thorne, alongside Pathfinder specialists, managed to activate a damaged environmental monitoring station nearby. The logs were fragmented, corrupted near the end, but showed a sudden, massive energy spike originating from the central chamber – the one with the Prism scar – coinciding with exotic particle readings and atmospheric collapse across the entire planet (or station). Simultaneously, data fragments recovered from a console near a cluster of mummified scientists revealed horrifying context: The 'Aperture' (the Prism) wasn't just a doorway; it was linked to a catastrophic energy source, potentially an unstable artificial star or a contained dimensional breach. Their final logs spoke of containment failure, an uncontrolled activation, and a desperate, failed attempt to use the Aperture as an escape route *or* possibly to shunt the cataclysm elsewhere. <strong>(Midpoint Revelation):</strong> The Prism was directly involved in the extinction event that wiped out the Creators millions of years ago. It didn't just appear on Earth; it *fled* or was *ejected* from their reality during their apocalypse, potentially carrying the lingering danger, or being the danger itself. (Later refined understanding: Prism was failed sanctuary against 'eht tfihs', activation failure caused this cataclysm & ejection).</p>
+                    </div>
+                    <div class="revisionHistory">
+                        <p><em>(No specific revision history noted for this chapter in source files.)</em></p>
+                    </div>
+                </details>
+
+                 <details>
+                    <summary>Chapter 9: Temporal Static</summary>
+                     <div class="chapter-summary-prose">
+                        <p>Eva Rostova’s eyes snapped open. Not from sleep, but from a momentary blackout she hadn’t realised was happening. The vast, silent chamber swam back into focus – the iridescent metal walls, the towering arches, the scattered forms of her Pathfinders and Vance’s Trailblazers, faces grim in the aftermath of Dr. Thorne’s halting translation of the final Creator logs. And the mummified Creators, silent witnesses to their own apocalypse.</p>
+                        <p><em>Apocalypse.</em> The word echoed, not just from Thorne’s earlier pronouncement, but seemingly within the very structure around her. The Prism hadn’t just been found; it was shrapnel from a stellar catastrophe, potentially the weapon itself. They weren’t explorers; they were salvage workers carrying a live bomb.</p>
+                        <p>“Captain?” Sergeant Major Petrova’s voice cut through the haze. Nearby, Vance was running a hand over his close-cropped hair, his usual cynical confidence replaced by a stark appraisal of their situation. Dr. Thorne, predictably, was already hunched over a salvaged Creator console, attempting to coax more data from the dead machine, his earlier horror already morphing into obsessive scientific focus.</p>
+                        <p>“Report,” Rostova managed, her voice steadier than she felt. Her mind felt… fuzzy. Static behind her thoughts. She vaguely remembered reaching out, moments before the revelation hit, tracing the edge of one of the large, multifaceted crystals embedded in the Prism’s scar on the wall. A foolish impulse, driven by a need for tactile confirmation. She’d felt only a faint tingle then.</p>
+                        <p><strong>(T-minus approx. 18 minutes until shift)</strong></p>
+                        <p>Just as Vance began outlining immediate security concerns – 'We don't know *what* caused that energy spike, could be residual...' – the chamber *flickered*.</p>
+                        <p>Not the lights. Reality itself.</p>
+                        <p>For a heart-stopping second, the dust motes dancing in her flashlight beam vanished, replaced by swirling particles of golden light. The silent, mummified Creators were gone, and in their place stood tall, slender figures clad in shimmering robes, moving with fluid grace. Strange, harmonic chimes filled the air, replacing the oppressive silence. A being with large, intelligent, multifaceted eyes turned towards her, its posture conveying calm curiosity.</p>
+                        <p>Then, *snap*.</p>
+                        <p>The vision vanished. The silent chamber, the dust, the mummified dead, her team's worried faces – all slammed back into place. Rostova gasped, stumbling back a step, her hand flying to her temple where a dull ache pulsed.</p>
+                        <p>'Captain? You alright?' Vance’s voice was sharp, cutting through her disorientation.</p>
+                        <p>'Fine,' she lied, forcing herself upright. 'Just... residual shock.' But the static in her mind felt louder now. 'Status on the portal stability?'</p>
+                        <p>'Nominal,' a Pathfinder comm tech reported. 'Shift expected in approximately thirteen minutes.'<br><em>(Note: Original JSON indicated 15 minutes here, correcting to 13 based on previous context.)</em></p>
+                        <p><strong>(T-minus approx. 13 minutes)</strong></p>
+                        <p>They needed a plan. Thorne wanted more data from the consoles near the scar. Vance wanted tactical withdrawal to reassess from Deep Freeze. Rostova felt torn, her analytical mind battling the gut-level instinct to *run*. As she tried to weigh the options, it happened again.</p>
+                        <p>This time, the vision overlaid the present. She saw her team standing amidst ghosts. A Creator technician, its long, multi-jointed fingers dancing over a console that wasn't there, walked *through* Gunny Jones. The harmonic chimes warbled, resolving into complex, melodic speech patterns she couldn't understand but felt carried layers of meaning. The air seemed warmer, smelling faintly of ozone and something organic, floral. She could almost feel the thrum of active technology through the soles of her boots.</p>
+                        <p>She flinched violently as a spectral Creator seemed to brush past her arm.</p>
+                        <p>'Eva!' Petrova was beside her instantly, steadying her. The concern in her Sergeant Major's eyes was unmistakable.</p>
+                        <p>'The crystals...' Rostova stammered, finally admitting it. 'When I touched the fragments in the wall... I'm seeing... *before*.'</p>
+                        <p>Thorne whipped around from his console, eyes wide behind his spectacles. 'Temporal echo? Psychic residue interacting with latent energy? Fascinating! What exactly are you perceiving? Sensory details? Emotional content?'</p>
+                        <p>Vance cut him off with a glare. 'Can it, Thorne. Captain, are you compromised?'</p>
+                        <p><strong>(T-minus approx. 10 minutes)</strong></p>
+                        <p>'I... I don't know,' Rostova admitted, fighting the rising nausea. The flashes were coming faster now, split seconds of vibrant life juxtaposed with the dead present. A busy concourse overlaid the empty hall. Advanced vehicles humming silently past skeletal remains. Laughter echoing where only silence reigned. 'It's disorienting, but I'm still...' *Here? Mostly?* 'Still functional.'</p>
+                        <p>'We're pulling out,' Vance decided, his voice leaving no room for argument. 'Now. Consolidate gear, move to the portal coordinates. Thorne, leave it!'</p>
+                        <p>Just as the teams began moving with practiced efficiency, consolidating equipment and forming a defensive posture towards the designated portal zone, Rostova experienced the strongest flash yet. It wasn't just sight and sound; it was *feeling*. A wave of collective panic washed over her, emanating from the direction of the Prism scar. She saw Creators running, their elegant forms suddenly frantic. She saw the light from the scar intensifying, the air crackling. She felt a bone-deep *terror* that wasn't her own.</p>
+                        <p>She cried out, clutching her head as the vision tore away, leaving her gasping in the cold, dead air of the present. The ache behind her eyes was a sharp spike.</p>
+                        <p><strong>(T-minus approx. 5 minutes)</strong></p>
+                        <p>'Help her!' Vance ordered. Petrova grabbed one of Rostova's arms, a burly Trailblazer taking the other. They half-carried, half-guided her towards the area where the portal was beginning to shimmer into existence. The air warped, colours bleeding into the familiar iridescent gateway.</p>
+                        <p>Rostova squeezed her eyes shut, trying to fight the echoes, focusing on the sensation of Petrova's grip, the cold air on her face – anchors to the *now*. The portal stabilized, a shimmering window back to the relative sanity of Deep Freeze.</p>
+                        <p>As they moved towards it, the last seconds ticking away, the ghosts of the past flickered around them. Rostova didn't know if stepping through the portal would sever the connection, or if she was now permanently tethered to the final moments of a dead civilization, haunted by the echoes of the very cataclysm she held a piece of.</p>
+                    </div>
+                    <div class="revisionHistory">
+                        <p><em>(No specific revision history noted for this chapter in source files.)</em></p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Chapter 10: Lost Between Shifts</summary>
+                     <div class="chapter-summary-prose">
+                        <p><strong>(Rostova POV)</strong></p>
+                        <p>Forward momentum. The strong grips of Petrova and the Trailblazer propelled Eva Rostova towards the shimmering, iridescent chaos of the active portal. Behind her, the silent Creator city, filled with ghosts both literal and temporal. Ahead, the promise of Deep Freeze’s cold, sterile familiarity. Her head throbbed, the echoes of the past still flickering at the edges of her vision – phantoms of bustling Creator life superimposed on the desperate retreat of her own team.</p>
+                        <p>She braced for the usual disconcerting, momentary pressure shift of transit. One step, two—</p>
+                        <p>The portal enveloped her.</p>
+                        <p>It wasn't the familiar brief disorientation. This was *tearing*. A sensation of being pulled thin, simultaneously forwards into the anticipated arrival and backwards into the ghostly past she was trying to escape. The temporal echoes intensified, no longer just flashes but a swirling vortex merging *with* the portal's energy. She saw the panicked faces of Creators *within* the kaleidoscopic light of the dimensional passage itself. She felt the concussive *boom* of their apocalypse not as a memory, but as a physical force buffeting her during transit.</p>
+                        <p>The brief journey stretched into an agonizing eternity. Colors bled into impossible spectrums. Sound became a physical pressure, a crushing weight interspersed with the high, clear chime of Creator technology – but distorted, played *backwards*. There was a horrifying sense of *inversion*, like being turned inside out while simultaneously witnessing the birth and death of a star.</p>
+                        <p>Then, the sensation of movement ceased with jarring abruptness. Not the gentle reentry into Antarctic reality, but a dead stop.</p>
+                        <p>Silence. Absolute, profound silence that pressed on her eardrums like deep water. Darkness. Not the absence of light, but an *active* blackness that felt like it absorbed thought itself. Cold – a penetrating cold deeper than the Antarctic ice, leaching warmth directly from her core.</p>
+                        <p>She blinked, but there was nothing to see. Took a breath, but the air was thin, utterly devoid of scent, texture, or humidity. It felt fundamentally *wrong*. Dead.</p>
+                        <p>Disoriented, heart pounding against the crushing silence, she activated her helmet light.</p>
+                        <p>The beam didn't illuminate. It seemed to *struggle* against the darkness, carving out only a pathetic, wavering cone of visibility that barely reached arm's length. And within that feeble light… nothing. No floor, no walls, no ceiling discernible. Just an endless, featureless void.</p>
+                        <p>Panic tightened its icy grip. 'Petrova? Vance? Command, this is Rostova, do you read?'</p>
+                        <p>Only the oppressive silence answered, swallowing her words instantly. Her comms were dead. Life support readings on her HUD flickered erratically, struggling to parse the non-environment.</p>
+                        <p>Then, she saw it. Not with light, but as a *distortion* in the blackness. Faint, shimmering outlines, like heat haze against the void. Geometric shapes – complex, non-Euclidean – flickered in and out of existence at the edge of her perception. They reminded her disturbingly of the brief, uncontrolled glimpse of the jungle dimension during the initial Prism spike. Was she... outside? Between dimensions?</p>
+                        <p>The cold deepened. Not just physical cold, but a soul-deep existential chill. She felt... *watched*. Not by eyes, but by the void itself. An immense, ancient, utterly alien awareness.</p>
+                        <p>Her HUD flashed a proximity alert. Something was approaching from the absolute blackness beyond her light's reach. Not fast, but with a horrifying inevitability.</p>
+                        <p>She drew her sidearm, the familiar weight a pathetic comfort against the incomprehensible. The light beam wavered, catching glimpses of… *something*. A shifting, amorphous shape coalescing from the darkness. Part smoke, part shadow, part decaying matter, swirling with faint, negative light. It pulsed slowly, and with each pulse, she felt a wave of profound nausea and *wrongness* wash over her.</p>
+                        <p>It felt like looking at time flowing backwards.</p>
+                        <p>This was 'eht tfihs'. Vance's cynical theory made horrifyingly real. A place where things didn't just die, they *undid*. And she was trapped in it. Alone. (Second Pinch Point - Part 1).</p>
+                        <p><strong>(Vance POV - Intercut or Following Scene)</strong></p>
+                        <p>Major Kaelen Vance hit the icy floor of the Prism Chamber hard, rolling to absorb the impact. Around him, his Trailblazers and the remaining Pathfinders spilled through the shimmering portal, weapons up, scanning the familiar, brightly lit cavern. The portal snapped shut behind the last trooper.</p>
+                        <p>'Head count!' Vance barked, pushing himself up. His eyes immediately scanned the faces, the team designations on armor.</p>
+                        <p>Gunny Jones was already doing the count. 'All Trailblazers present or accounted for, Major. Pathfinders... minus one.'</p>
+                        <p>Vance's gut clenched. He looked towards Petrova, whose face was pale, eyes wide with disbelief.</p>
+                        <p>'The Captain...' Petrova choked out. 'She was right behind me. The portal... it flickered just as she entered. She didn't come through!'</p>
+                        <p>Vance stared at the inert, crystalline wall where the gateway had been moments before. Rostova, lost. Not KIA, not wounded. Just... gone. Consumed by the artifact they barely understood.</p>
+                        <p>Dr. Thorne pushed forward, babbling about temporal shear and dimensional echoes. Vance rounded on him, grabbing the front of his scientific vest.</p>
+                        <p>'Can you get her back?' Vance demanded, his voice low and dangerous.</p>
+                        <p>Thorne stammered, 'I... I don't know! The physics are unprecedented! She might be... anywhere. Or anywhen. Or...'</p>
+                        <p>'Find out,' Vance growled, releasing him abruptly. He turned to the merged teams, his face grim. 'Alright, listen up. Captain Rostova is MIA. Until we get her back, or receive orders stating otherwise, *I* am in command of Project Chimera. Secure the chamber. Petrova, with me. We need to figure out what the hell just happened.' The weight of unexpected command, and the chilling possibility of Rostova's fate, settled heavily on his shoulders.</p>
+                    </div>
+                    <div class="revisionHistory">
+                        <p><em>(No specific revision history noted for this chapter in source files.)</em></p>
+                    </div>
+                </details>
+
+                 <details>
+                    <summary>Chapter 11: Command and Chaos</summary>
+                     <div class="chapter-summary-prose">
+                        <p>Weeks bleed into months. Deep Freeze base operates under a tense new normal. Vance, now in reluctant overall command, struggles to balance the mission's conflicting demands: continue exploration cautiously (High Command's orders, driven by Thorne's theories), manage the increasingly traumatized and depleted joint team, and desperately search for a way to recover Rostova. He reviews Rostova's logs, her analytical approach, trying to emulate her thoroughness while relying on his own combat instincts. Petrova becomes his stoic, invaluable second, channeling her grief into fierce efficiency. Thorne, fueled by Rostova's disappearance, pushes riskier theories about manipulating Prism cycles and intentionally accessing 'negative dimensional space' – 'eht tfihs' – believing Rostova might be trapped there. Vance resists, horrified by the implications. Team morale frays; brief, tense portal excursions yield little data but several close calls. They discover dimensions increasingly hostile or nonsensical (e.g., a world of endless rain that dissolves inorganic matter). The Prism feels less like a gateway, more like a roulette wheel of cosmic horrors. Vance clashes with Thorne, suspects the scientist sees Rostova's loss as an acceptable variable in his quest for knowledge. Gunny Jones tries to keep Vance grounded, but the pressure mounts.</p>
+                    </div>
+                     <div class="revisionHistory">
+                        <p><em>(No specific revision history noted for this chapter in source files.)</em></p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Chapter 12: Whispers from the Void</summary>
+                     <div class="chapter-summary-prose">
+                        <p>During a tense analysis of sensor logs from the portal interface, a Pathfinder tech detects a faint, anomalous energy signature bleeding *backwards* through the closed Prism during a specific phase of its cycle – a signature with characteristics matching the temporal distortion recorded when Rostova vanished. It's weak, almost undetectable, like a whisper against cosmic background noise. Thorne is ecstatic, claiming it's proof Rostova is alive and somehow interacting with the Prism from *within* 'eht tfihs'. He proposes a radical, dangerous plan: use precisely timed energy pulses, tuned to the detected frequency, to 'ping' the negative dimension, hoping to stabilize the connection or even receive a coherent signal. Vance is deeply skeptical, fearing they could destabilize the Prism or attract unwanted attention from 'eht tfihs'. Petrova, torn between hope and protocol, researches Rostova's last known actions, focusing on the Creator crystals she touched. Could there be a link? Against his better judgment, pressured by the possibility of recovering his lost co-commander and Thorne's relentless arguments, Vance authorizes a limited, carefully controlled test of Thorne's 'ping' theory.</p>
+                    </div>
+                     <div class="revisionHistory">
+                        <p><em>(No specific revision history noted for this chapter in source files.)</em></p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Chapter 13: Return and Revelation</summary>
+                     <div class="chapter-summary-prose">
+                        <p>**(Rostova POV - Flashback/Intercut during return)**</p>
+                        <p>Time lost meaning in the absolute void of 'eht tfihs'. It wasn't linear progression, but a constant, sickening sensation of *unraveling*. Her suit's chronometer was useless, flickering between impossible dates. Survival became primal: rationing dwindling oxygen reserves that seemed to deplete unnaturally fast, fighting the encroaching psychic cold that leeched thought and hope. The smoky, time-reversed shapes haunted the periphery, sometimes coalescing into horrifying parodies of life – things that decayed *backwards* into existence before dissolving.</p>
+                        <p>She clung to consciousness, focusing on mission parameters, on Vance's pragmatic grounding, on Petrova's steadfastness. Then, amidst the swirling darkness, she saw it – a flicker of light *not* belonging to the void. A shard of something crystalline, impossibly suspended, radiating a faint, steady warmth and a sense of *forward* time that felt like an anchor in the backwards tide. Drawn to it, she reached out.</p>
+                        <p>Contact. Not physical, but a jolt of connection. Images flooded her mind – not ghosts of the past, but something else. A sense of vast, ancient sorrow. A feeling of *being* the shard, fractured, lost. A desperate flight from an all-consuming darkness. And a name, or concept, resonating in her thoughts: *Remnant*. It felt… protective. A shield against the void's decay.</p>
+                        <p>The Remnant pulsed. A faint, rhythmic energy signature reached out, seemingly responding to something beyond the void. Hope, fragile but fierce, flared within her. She focused all her remaining will, pushing her own energy, her *identity*, towards the Remnant, towards that external pulse.</p>
+                        <p>**(Vance/Team POV - Present)**</p>
+                        <p>Thorne's experiment begins. Carefully modulated energy pulses are directed into the Prism's core during the specific cycle phase. The chamber hums ominously. Sensors monitor the faint, backwards energy signature.</p>
+                        <p>For tense minutes, nothing happens. Thorne mutters adjustments. Vance watches the Prism wall, hand near his sidearm, regretting this gamble.</p>
+                        <p>Then, the anomalous signature *spikes*. Not just a passive echo, but a focused beam, cutting *through* the Prism wall. The crystal surface liquifies violently, not into a stable portal, but a ragged, tearing hole ripped into reality. From the swirling vortex emerges a figure, collapsing onto the chamber floor – exosuit torn, covered in frost and strange, dark residue, but undeniably Rostova.</p>
+                        <p>Vance and Petrova rush forward as medics converge. Rostova is alive, conscious, but severely weakened, disoriented. Her eyes, when they meet Vance's, hold a haunted, ancient knowledge. Clutched tightly in her gauntleted hand is a piece of sharply angled, dark crystal, pulsing faintly with internal light – the Blade Remnant.</p>
+                        <p>Before she passes out, she manages a few, chilling words: 'It wasn't a gateway... or a weapon. It was... a sanctuary. A *failed* sanctuary... against 'eht tfihs'. And *we*... we might break it further.'</p>
+                        <p>Her return, and the cryptic warning, shatters their understanding of the Prism yet again. She holds a potential key, but her ordeal has clearly changed her, and the nature of the artifact she brought back is terrifyingly unknown. (Second Plot Point Setup).</p>
+                    </div>
+                     <div class="revisionHistory">
+                        <h4>Revision History Notes (Conceptual):</h4>
+                        <p><em>(Source JSON mentioned multiple drafts for Ch 13 focusing on refinement, but specific draft content wasn't provided. The prose above represents the integrated final concept from V2.2).</em></p>
+                        <ul>
+                            <li>Initial drafts might have focused more simply on the return mechanism.</li>
+                            <li>Later drafts refined Rostova's experience in 'eht tfihs', emphasizing the time-reversal horror and introducing the Blade Remnant as a sentient/protective anchor.</li>
+                            <li>Final version locks in the "failed sanctuary" revelation upon return, setting up the core conflict shift.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                 <details>
+                    <summary>Chapter 14: The Blade and The Burden (Concept)</summary>
+                     <div class="chapter-summary-prose placeholder">
+                        <h4>Chapter Concept:</h4>
+                        <p>Focus on Rostova's initial recovery and debriefing. She struggles to articulate the non-linear horror of 'eht tfihs'. Her connection to the Blade Remnant is palpable; she's reluctant to let it out of her sight, feeling its subtle temporal pull. Vance grapples with her changed demeanor – her trauma, her new insights, her connection to the unsettling artifact. Thorne is desperate to study the blade, seeing it as the ultimate key. Rostova reveals more about the Prism being a failed sanctuary, designed to protect against 'eht tfihs', and her fear that continued human interference, especially Thorne's experiments, could trigger a final collapse or breach. She carries the immense burden of this knowledge and her own culpability (touching the crystals, falling into the void). The dynamic between Rostova and Vance shifts – his protective instincts clash with her newfound, trauma-informed authority and her intimate connection to the blade. Initial, cautious tests on the blade reveal its bizarre properties (e.g., localized time distortions, energy absorption/redirection).</p>
+                    </div>
+                     <div class="revisionHistory">
+                        <p><em>(No specific revision history noted for this chapter in source files.)</em></p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Chapter 15: Fractured Team, Focused Threat (Revised Concept)</summary>
+                    <div class="chapter-summary-prose placeholder">
+                        <h4>Chapter Concept (Revised):</h4>
+                        <p>Tensions escalate within the merged team. Some are wary of Rostova's stability and the blade's influence. Others are fiercely loyal. Vance tries to maintain cohesion, caught between supporting Rostova and managing Thorne's increasingly reckless proposals to weaponize the blade or use it to force contact with the hypothetical "Creators" inside the Prism (believing them to still exist based on Rostova's "failed sanctuary" idea). Rostova, drawing on her 'eht tfihs' experience and connection to the blade, identifies specific energy signatures within the Prism that correspond to *internal* containment systems failing – suggesting the sanctuary wasn't just anciently failed, but actively degrading, possibly accelerated by their intrusions. She argues the primary threat isn't just accessing dimensions, but the potential collapse of the Prism itself, unleashing 'eht tfihs' or whatever is inside. The focus shifts from exploration to desperate damage control and understanding the immediate danger the Prism itself poses.</p>
+                    </div>
+                     <div class="revisionHistory">
+                        <p><em>(No specific revision history noted for this chapter in source files.)</em></p>
+                    </div>
+                </details>
+
+                 <details>
+                    <summary>Chapter 16: Echoes Within, Defenses Without (Revised Concept)</summary>
+                    <div class="chapter-summary-prose placeholder">
+                        <h4>Chapter Concept (Revised):</h4>
+                         <p>Further blade experiments. Rostova discovers she can subtly influence the Prism's cycles or interface with certain systems using the blade, but it's draining and unpredictable, causing temporal distortions or sensory flashbacks to 'eht tfihs'. During one such attempt to probe the internal structure, they trigger a previously unknown defensive response *from within the Prism* – not from another dimension, but from the artifact itself. Automated systems activate: perhaps energy fields, localized spatial warping, or small, swift defense drones emerging from hidden ports *within the Prism chamber*. This confirms Rostova's "sanctuary" theory and suggests something is still active inside, defending itself. This incident forces Vance and High Command to take Rostova's warnings more seriously. Thorne is simultaneously thrilled and frustrated. The encounter provides data but also reveals the immense danger of provoking whatever remains within the Prism. They realize they are effectively poking a potentially wounded, ancient, and immensely powerful entity.</p>
+                    </div>
+                     <div class="revisionHistory">
+                        <p><em>(No specific revision history noted for this chapter in source files.)</em></p>
+                    </div>
+                </details>
+
+                 <details>
+                    <summary>Chapter 17: Sacrifice (Revised Concept - Petrova's Death)</summary>
+                    <div class="chapter-summary-prose placeholder">
+                         <h4>Chapter Concept (Revised - Petrova Sacrifice):</h4>
+                        <p>A major internal defense system activates – perhaps a swarm of micro-constructs or shapeshifting energy patterns pouring from the Prism wall, targeting the team directly, more aggressive than before. The team is overwhelmed. Standard weapons are ineffective. Rostova tries to use the Blade Remnant, but it's too slow or the feedback is too intense. Seeing Rostova about to be overrun, Sergeant Major Petrova makes a split-second decision. She grabs the Blade Remnant from Rostova (or intercepts it). Lacking Rostova's specific trauma-forged connection/resistance, the raw temporal energy feedback is catastrophic. Petrova unleashes a massive, uncontrolled temporal blast from the blade, annihilating the immediate wave of defenses but immolating herself in the process – perhaps aging rapidly to dust or being consumed by raw time energy. Her sacrifice saves the team, stops the attack, but leaves Rostova devastated, Vance horrified, and the team reeling from the loss of their anchor. The blade falls inert, now associated with immense power and lethal cost. (Second Pinch Point - Part 2). This galvanizes the survivors and deepens the Rostova/Vance bond through shared grief and the weight of Petrova's sacrifice.</p>
+                    </div>
+                     <div class="revisionHistory">
+                        <p><em>(Source JSON mentioned revision history focusing on Petrova's sacrifice. The prose above reflects the final concept.)</em></p>
+                    </div>
+                </details>
+
+                 <details>
+                    <summary>Chapter 18: Shared Burden (Revised Concept - The Hug)</summary>
+                    <div class="chapter-summary-prose placeholder">
+                        <h4>Chapter Concept (Revised - The Hug):</h4>
+                        <p>The immediate aftermath of Petrova's sacrifice. Somber atmosphere in Deep Freeze. Rostova is withdrawn, consumed by grief and guilt, staring at the inert Blade Remnant. Vance finds her alone. He tries to offer tactical comfort, military condolences, but it falls flat against the enormity of the loss and the cosmic horror they face. Seeing her profound pain and isolation, Vance drops the commander facade. In a moment of pure empathy, breaking protocol and their usual professional distance, he wordlessly pulls her into a hug. It's awkward, hesitant at first, but conveys shared grief, understanding, and support more effectively than any words. Rostova initially stiffens, then collapses into it, the first crack in her hardened exterior since returning. It's not romantic, but a profound acknowledgment of their shared burden, their reliance on each other, and the human cost of their mission. This moment solidifies their partnership on a deeper level, shifting their dynamic permanently. They implicitly agree they must face the Prism's final secrets *together*, for Petrova, and for survival.</p>
+                    </div>
+                     <div class="revisionHistory">
+                        <p><em>(Source JSON mentioned revision history focusing on the hug scene. The prose above reflects the final concept.)</em></p>
+                    </div>
+                </details>
+
+                 <details>
+                    <summary>Chapter 19: The Breach (Setup Scene Prose)</summary>
+                     <div class="chapter-summary-prose">
+                        <p>Armed with the terrible knowledge of the blade's cost and spurred by Petrova's sacrifice, Rostova and Vance agree on a desperate gamble, overriding Thorne's objections (or perhaps reluctantly incorporating one of his theories). They believe the only way to understand and potentially stabilize the degrading Prism is to access the core control systems teased by the internal defenses – confronting the 'Creators' or whatever remains inside. They identify a specific structural weakness or energy node on the Prism's surface, theorized by Thorne as vulnerable to a focused temporal counter-frequency generated by the Blade Remnant. The plan: use the blade not as a weapon, but as a key, to create a controlled breach.</p>
+                        <p>The scene opens with the team grimly preparing near the identified node. Rostova holds the blade, its faint light reflecting in her haunted eyes. Vance stands beside her, hand near hers on the hilt, sharing the burden. Gunny Jones and the remaining NCOs coordinate perimeter security, weapons ready. The air crackles with tension.</p>
+                        <p>Rostova takes a breath, Vance nods grimly. Together, they thrust the Blade Remnant towards the node. Contact. Instead of a clean interface, the blade's backwards time energy clashes violently with the Prism's internal forward-flow (or corrupted flow). Alarms shriek. Lights flash. The blade glows white-hot. Rostova and Vance grunt, straining against the immense temporal forces.</p>
+                        <p>Suddenly, a beam of *black lightning* erupts from the Prism node, striking Gunny Jones, who was providing close cover. He cries out, collapsing, impaled by crackling negative energy, his armor smoking. (Gunny Critically Injured - Catalyst).</p>
+                        <p>Horrified but committed, Rostova and Vance push harder. With a sound like tearing reality, the Prism's surface doesn't open cleanly, but *shatters* inwards at the node point. Not into another dimension, but into the space *within* the Prism itself. They glimpse an infinite void, filled with swirling geometric structures like a cosmic kaleidoscope – the Inner Prism hypercube. But something is wrong. Visible *cracks* spread across the void like fissures in reality, leaking the smoky darkness of 'eht tfihs'. The breach hasn't just opened a door; it has catastrophically compromised the already failing sanctuary, allowing the external corruption *in*. (End of Act II / Climax Begins).</p>
+                    </div>
+                     <div class="revisionHistory">
+                        <p><em>(No specific revision history noted for this chapter in source files.)</em></p>
+                    </div>
+                </details>
+
+                <!-- PLACEHOLDERS FOR CHAPTERS 20-25 BASED ON DEV LOG & DISCUSSION -->
+
+                <details>
+                    <summary>Chapter 20: Chaos Within, Shifting Maze (Concept)</summary>
+                     <div class="chapter-summary-prose placeholder">
+                        <h4>Chapter Concept (Based on Dev Log):</h4>
+                         <p><strong>Immediate Aftermath:</strong> Pick up seconds after the breach (Ch 19). The team reels from the Inner Prism reveal (infinite void, hypercube structure, universe marbles), the visual evidence of the 'eht tfihs' corruption they've worsened, and Gunny's critical injury. Awe mixes with terror and guilt.</p>
+                         <p><strong>Initial Broad Defenses:</strong> Automated Creator defenses activate from a distant central structure within the hypercube – energy pulses, localized gravity distortions, small drones. These seem broad-spectrum, reacting to the breach itself.</p>
+                         <p><strong>Active Creator Intervention - Dimensional Shifts:</strong> As the team tries to establish a defensive perimeter, aid Gunny, and get oriented, the *Creators* actively intervene. Reality flickers violently. They are suddenly shunted to a different location within the hypercube space (e.g., different viewpoint, closer to corrupted marbles). Communication may be distorted.</p>
+                         <p><strong>Disorientation & Hindrance:</strong> The team scrambles to adapt, realizing they're being deliberately hindered. They try to progress towards the central Creator structure (seeking answers, control, maybe help for Gunny), but significant pushes result in more jarring dimensional shifts (brief exposure to hostile micro-dimensions within marbles, then back to the hypercube but further away or disoriented). Focus on survival, assessment, and trying to understand the pattern of the shifts.</p>
+                         <p><strong>Emotional Tone:</strong> Disorientation, panic, survival, dawning dread about the active intelligence hindering them.</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Chapter 21: The Pattern, The Blade, Failed Contact (Concept)</summary>
+                     <div class="chapter-summary-prose placeholder">
+                        <h4>Chapter Concept (Based on Dev Log):</h4>
+                         <p><strong>Recognizing Deliberate Hindrance:</strong> Team experiences more targeted shifts, confirming they are deliberate actions preventing access to the central structure. Frustration and tension mount.</p>
+                         <p><strong>Key Realization - Blade is the Target:</strong> During a defense sequence (automated turrets, energy fields), Vance or another tactical mind notices defensive measures seem primarily focused on the **Blade Remnant** Rostova carries. Energy tracks *it*, fields try to contain *it*. Team members are targeted *only* if they obstruct access to the blade or attack directly. Initial interpretation: "They want the blade."</p>
+                         <p><strong>Failed Communication Attempts:</strong> Attempts to hail the structure or send signals are met with hostility directed *at the blade*, further disorienting shifts, or distorted energy bursts. Creators likely perceive team as hostile invaders associated with 'eht tfihs' corruption and the dangerous artifact.</p>
+                         <p><strong>Rostova's Insight:</strong> Rostova, sensitive to the blade and 'eht tfihs', may sense the intent behind the defenses is *containment* of the blade, not just general aggression. Team pieces together that Creators specifically want to isolate/neutralize the Blade Remnant. Why?</p>
+                         <p><strong>Emotional Tone:</strong> Dawning realization, tactical problem-solving under pressure, frustration, growing unease about the blade's significance to the Creators.</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Chapter 22: The Interface, Revelation, Mutual Horror (Concept)</summary>
+                     <div class="chapter-summary-prose placeholder">
+                         <h4>Chapter Concept (Based on Dev Log):</h4>
+                         <p><strong>Risky Push to Interface:</strong> Using the insight that the blade is the primary target, the team devises a risky plan (e.g., using blade as bait, exploiting a shift's disorientation) for a small group (Vance, Rostova, maybe Thorne) to make a rapid push and reach the Creator control/observation room/interface.</p>
+                         <p><strong>Direct Confrontation/Communication:</strong> Access gained. They see the time-dilated Creators (physical, energy constructs, via interfaces). Initial hostility from Creators seeing team (covered in breach residue, carrying blade) as agents of 'eht tfihs'.</p>
+                         <p><strong>Desperate Information Exchange:</strong> Communication established (advanced tech, telepathy?). Vance/Rostova desperately convey the truth: Millions of years passed, civilization gone, breach accidental, corruption spreading *because* of them.</p>
+                         <p><strong>Creator Realization & 'Causal Jetlag':</strong> Hyper-intelligent Creators rapidly process/verify this (access team logs, sensor data). The extreme time dilation is explained via the **'Causal Jetlag'** concept (temporal inertia/wake from instantaneous FTL jump, anchoring their time to departure moment). Creators experience the horror of their true situation (extinction, isolation, failure).</p>
+                         <p><strong>Blade Recognition & Mutual Horror:</strong> Concurrently, Creator analysis of the blade identifies its 'eht tfihs' signature, backwards time flow. They recognize it as intrinsically linked to the void *and* potentially the entity responsible for the final cataclysm (per final twist). **Mutual Horror:** Team realizes the depth of the Creator tragedy; Creators realize the terrifying nature and origin of the blade the humans brought *into* their sanctuary.</p>
+                         <p><strong>Emotional Tone:</strong> High tension, desperation, shocking revelations, profound tragedy, mutual horror and understanding.</p>
+                    </div>
+                </details>
+
+                 <details>
+                    <summary>Chapter 23: Desperate Measures, Blade Departure (Concept)</summary>
+                     <div class="chapter-summary-prose placeholder">
+                         <h4>Chapter Concept (Based on Dev Log):</h4>
+                         <p><strong>Shared Understanding, Divergent Goals:</strong> Both sides understand the 'eht tfihs' threat embodied by the blade. However, Creators see blade as void vector/source of corruption's entry. They see the Inner Prism corruption spreading from the breach. They realize they cannot save the Prism, likely cannot stop the corruption.</p>
+                         <p><strong>Creators' Desperate Choice:</strong> Escape *this* contaminated reality and, crucially, *remove the blade* from it. Their focus shifts entirely to the *artifact*.</p>
+                         <p><strong>Overriding Control / Final Act:** Creators use tech to override Rostova/interface directly with the blade. Not an attack on her, but focused on the artifact. **Optional Beat:** As a final act, recognizing shared threat or value in humanity, Creators use tech to instantly stabilize/heal Gunny Jones (a 'parting gift', adds poignancy, mitigates blade loss slightly for team).</p>
+                         <p><strong>Chaotic Warp & Departure:** Creators initiate a chaotic, localized warp centered on themselves and the blade, using its inherent instability. Space twists, energy flares – a tearing escape, not a clean portal. Possible final message: 'It cannot remain.' or 'Flee the source.' Creators and Blade Remnant vanish.</p>
+                         <p><strong>Aftermath:** Immediate Creator threat gone. Team left bladeless in damaged control room within corrupted, unstable Inner Prism. Must still save Gunny (if not healed), escape Inner Prism, deal with the 'eht tfihs' corruption they caused, and face consequences. Creator conflict resolved, but core 'eht tfihs'/escape problem remains. **Reader feels loss/ambiguity here, setting up twist.**</p>
+                         <p><strong>Emotional Tone:</strong> Desperation, sacrifice (Creators), bittersweet moment (Gunny healed?), shock, loss, lingering dread, anticlimax (deliberate).</p>
+                    </div>
+                </details>.
+                 <details>
+                    <summary>Chapter 24: Return and Reckoning (Concept)</summary>
+                     <div class="chapter-summary-prose placeholder">
+                        <h4>Chapter Concept (Based on Dev Log & Discussion):</h4>
+                         <p><strong>Deliberate Slowdown:</strong> Pacing decelerates significantly after Ch 23's climax. Shift focus from immediate cosmic threat to human/logistical aftermath.</p>
+                         <p><strong>Escape & Return:</strong> Team manages difficult escape from damaged Inner Prism control room and corrupted space (perhaps using residual Creator tech, or their own ingenuity).</p>
+                         <p><strong>Arrival at Deep Freeze:</strong> Return to the base (or establishment of secure zone near Prism interface if escape is partial). Sense of exhaustion, trauma, loss.</p>
+                         <p><strong>Debriefing the Impossible:</strong> Formal debriefing process. Team struggles to explain the Creators, Causal Jetlag, the blade's departure. Emphasize ambiguity from their POV regarding Creator motives and the blade's true nature (pre-twist).</p>
+                         <p><strong>Processing Trauma & Loss:</strong> Address Petrova's death's impact. Resolve Gunny Jones' status (recovering from injury or Creator healing, dealing with trauma). Individual character moments showing impact of events.</p>
+                         <p><strong>Character Focus:</strong> Rostova/Vance partnership solidified, dealing with shared command, grief, and uncertain future. Others dealing with their experiences.</p>
+                        <p><strong>Emotional Tone:</strong> Exhaustion, grief, uncertainty, bureaucratic friction, fragile relief, lingering trauma.</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Chapter 25: The Long Watch (Concept)</summary>
+                    <div class="chapter-summary-prose placeholder">
+                        <h4>Chapter Concept (Based on Dev Log & Discussion):</h4>
+                        <p><strong>Establishing Presence:</strong> Military establishes permanent presence/FOB near/within Prism interface area due to the confirmed internal corruption and instability. Shift towards long-term containment/monitoring.</p>
+                        <p><strong>Scientific Analysis (Thorne POV):</strong> Thorne leads scientific analysis of the corrupted Inner Prism environment accessible via the breach. Fascinated by the physics, the corruption, the potential infinity within. Represents the ongoing lure/danger of the Prism.</p>
+                        <p><strong>Character Futures:</strong> Show glimpses of where key survivors are headed. Rostova/Vance perhaps tasked with overseeing the new containment mission or training future teams. Gunny's role post-recovery. Others assigned elsewhere or staying on.</p>
+                        <p><strong>Lingering Questions & Sequel Setup:</strong> Emphasize the unresolved nature of the 'eht tfihs' corruption within the Prism. The vastness and danger of the Inner Prism remain. This provides natural justification and setup for proposed spin-off/sequel series ("Of Trailblazers and Pathfinders") focusing on exploration/defense within the Prism.</p>
+                         <p><strong>Concluding Mood:</strong> Sense of heavy responsibility, ongoing threat, changed world. The immediate crisis is over, but the cosmic horror remains contained, not defeated. Leads directly into the Final Twist reveal (Interstitial 2).</p>
+                        <p><strong>Emotional Tone:</strong> Reflective, somber, sense of duty, foreshadowing, uneasy calm before the final twist.</p>
+                    </div>
+                </details>
+
+                 <details>
+                    <summary>Interstitial Fragment 2: The First Cause (Placeholder - Final Twist)</summary>
+                     <div class="chapter-summary-prose placeholder">
+                        <h4>Concept (Placeholder):</h4>
+                        <p>This numberless add-on chapter, likely placed near the very end of the narrative (possibly the final paragraphs), delivers the final twist.</p>
+                        <p><strong>Content:</strong> A flashback or revealed log/truth showing the origin of the Blade Remnant entity. It wasn't just a victim caught in the cataclysm. It belonged to (or *was*) a Creator entity/faction that, perhaps out of despair, nihilism, or a twisted desire for transcendence, *deliberately* sabotaged the Prism's final activation sequence and invited 'eht tfihs' into their reality, causing the apocalypse millions of years ago. The Blade Remnant is the fragmented consciousness of the entity responsible for everything.</p>
+                        <p><strong>Impact:</strong> Recontextualizes the entire story. The Blade wasn't a tool or ambiguous ally; it was the original antagonist manipulating events (perhaps subtly) from within. The Creators taking it in Ch 23 wasn't just escape; it was the necessary removal and containment of the ultimate evil. Reader's potential dissatisfaction with the climax is flipped into horrified understanding.</p>
+                    </div>
+                </details>
+</div>
+        </details> <!-- End Chapters -->
+
+         <details>
+             <summary>Development Log & Discussion Highlights (Post-V2.2)</summary>
+              <div>
+                 <p><em>This section summarizes key points, refinements, and rationale discussed after the finalization of Story Bible Version 2.2, primarily drawn from the "Development Log & Discussion Summary" file (<code>Story book addon 02a_250410_150928.txt</code>).</em></p>
+
+                 <div class="concept-item">
+                     <h3>Climax Arc Refinement (Chapters 20-23)</h3>
+                     <dl>
+                        <dt>Ch 20 (Chaos Within):</dt><dd>Focus on immediate aftermath, Gunny's injury, initial broad defenses, then Creators' active intervention via targeted dimensional shifts to hinder progress. Emphasis on disorientation and survival.</dd>
+                        <dt>Ch 21 (Pattern Blade):</dt><dd>Team recognizes shifts are deliberate hindrance. Key realization: Creator defenses seem focused on the **Blade Remnant** itself. Initial interpretation: 'They want the blade'. Failed communication attempts met with hostility towards blade. Rostova senses intent is *containment*.</dd>
+                        <dt>Ch 22 (Interface Revelation):</dt><dd>Team uses blade-targeting insight for risky push to control room. Direct communication established. Team conveys truth (time passed, civilization gone, breach accidental, corruption). Creators rapidly process/verify. Introduction of **'Causal Jetlag'** concept. Creators experience horror. Concurrently, Creator analysis identifies blade's 'eht tfihs' signature, recognizing its link to the void/cataclysm. Mutual horror established.</dd>
+                        <dt>Ch 23 (Desperate Measures):</dt><dd>Shared understanding of 'eht tfihs' threat, divergent goals. Creators see blade as void vector. Cannot save Prism. Make desperate choice: Escape *this* reality and remove the blade. Focus on artifact, override Rostova/interface. **Optional Beat:** Creators heal Gunny as final act/parting gift. Initiate chaotic warp centered on themselves and blade, taking both. Possible message: 'It cannot remain.' Team left bladeless in damaged, corrupted Inner Prism.</dd>
+                     </dl>
+                 </div>
+
+                 <div class="concept-item">
+                     <h3>Key Concepts & Beats Discussed</h3>
+                      <dl>
+                         <dt>Causal Jetlag:</dt>
+                         <dd><strong>Description:</strong> Spontaneously generated concept explaining extreme Creator time dilation. Posits 'temporal inertia'/'spacetime wake' from instantaneous FTL dimensional jump anchored internal time to departure moment, causing extreme dilation as a side effect.</dd>
+                         <dd><strong>Justification:</strong> Provides mechanistic sci-fi explanation beyond simple 'time shield', enhances tragedy, allows rapid Creator realization.</dd>
+
+                         <dt>Creators Heal Gunny (Optional Beat):</dt>
+                          <dd><strong>Description:</strong> Idea for Creators to heal/stabilize critically injured Gunny Jones before departing (Ch 23).</dd>
+                          <dd><strong>Rationale:</strong> Provides moment of grace/shared understanding. Offers tangible 'positive' outcome balancing blade loss. Sets up Gunny's post-recovery role. Consistent with advanced beings acting logically even in desperation.</dd>
+
+                         <dt>Creators Take Blade:</dt>
+                           <dd><strong>Description:</strong> Confirmation that Creators taking Blade Remnant in final warp (Ch 23) is logical.</dd>
+                           <dd><strong>Rationale:</strong> 1) **Reclamation:** Gathering last essence of their species. 2) **Containment:** Removing dangerous, 'eht tfihs'-tainted artifact linked to their doom. 3) **Narrative Purpose:** Sets up final twist's impact – reader initially perceives loss, twist reveals it was necessary removal of true antagonist entity within blade.</dd>
+                     </dl>
+                 </div>
+
+                 <div class="concept-item">
+                     <h3>Resolution Arc Planning (Chapters 24-25)</h3>
+                     <dl>
+                        <dt>Pacing & Focus:</dt><dd>Deliberate slowdown after Ch 23 climax. Shift from cosmic threat to human/logistical aftermath.</dd>
+                        <dt>Content:</dt><dd>Team's return, debriefing (emphasizing ambiguity from their POV re: Creators/blade), processing trauma/loss (Petrova, Gunny's status resolved). Military establishing permanent FOB near/within Prism interface. Thorne leading scientific analysis of corrupted Inner Prism.</dd>
+                        <dt>Character Focus:</dt><dd>Individual character moments showing impact. Rostova/Vance partnership solidified. Thorne immersed in new science.</dd>
+                        <dt>Sequel Setup ('Trailblazers and Pathfinders'):</dt><dd>Military FOB and ongoing threat/mystery of corrupted Inner Prism provide natural justification for spin-off focused on exploration/defense within the Prism.</dd>
+                     </dl>
+                 </div>
+
+                 <div class="concept-item">
+                     <h3>Narrative Strategy & Authorial Process</h3>
+                      <dl>
+                         <dt>Climax Dissatisfaction & Twist Payoff:</dt>
+                         <dd><strong>Strategy:</strong> Acknowledge Ch 23 climax (Creators/blade depart) might initially feel anticlimactic. This is deliberate.</dd>
+                         <dd><strong>Justification:</strong> Aligns reader emotion with character confusion/loss. Subverts tropes. Crucially sets up *impact* of final twist (Interstitial 2), which recontextualizes blade departure as necessary containment, delivering deeper fulfillment through horror/realization.</dd>
+
+                         <dt>Principle of Justification:</dt>
+                         <dd><strong>Concept:</strong> Narrative constraints aren't avoiding tropes but ensuring *anything* occurring is adequately justified within established rules/logic. 'You can do anything, what justifies it.'</dd>
+                         <dd><strong>Application:</strong> Author's immersion/problem-solving seeks justification, making concepts like 'Causal Jetlag' feel integrated.</dd>
+
+                         <dt>Creative Freedom & Audience Contract:</dt>
+                          <dd><strong>Concept:</strong> Creators have freedom limited only by providing sufficient justification for suspension of disbelief. Internal logic allows acceptance of wild concepts.</dd>
+
+                         <dt>Authorial Method:</dt>
+                          <dd><strong>Inspiration:</strong> Lovecraft's 'At the Mountains of Madness'.</dd>
+                          <dd><strong>Process:</strong> Initial vision, dynamic workshopping (with AI), spontaneous idea generation during immersion ('Causal Jetlag', Entanglement Mechanism), self-reflection, leveraging personal knowledge for believable pseudoscience. Emphasis on consistency.</dd>
+                      </dl>
+                 </div>
+
+                 <div class="concept-item">
+                    <h3>Related Separate Concepts (Not Part of Prismatica)</h3>
+                    <p><em>The following concepts were discussed but belong to **separate conceptual universes** contemplated by the author and are **not** part of the Prismatica storyline:</em></p>
+                    <dl>
+                        <dt>Concept Origin - 'God's Prism':</dt>
+                        <dd>Originated from question: 'If God used a Prism, wouldn't he split universes?' Evocative phrase implying cosmic scale, multiplicity, power.</dd>
+                        <dt>Concept Origin - 'World Engine':</dt>
+                        <dd>Another evocative authorial phrase implying planetary scale, artificiality, power, mystery. Flexible seed concept.</dd>
+                        <dt>Separate Universe - World Engine Concept:</dt>
+                        <dd>Briefly discussed separate high-concept sci-fi idea: repurposed planet ('World Engine'), god-like species trapped in self-inflicted time-crystal prison ('chrono-sphere'), macroscopic quantum effects, multiverse cataclysm ('Shattering of Heaven'), themes of hubris. Recognized as ambitious but basic/unfleshed out. **Totally separate from Prismatica.**</dd>
+                         <dt>Separate Universe - Quantum Entanglement Puzzle:</dt>
+                         <dd>From 'World Engine' idea: Using quantum entanglement as narrative mechanic linking two separate novels (*Chronochromia* and *God's Prism* in that concept). Requires reader deduction across books. Discussed mechanism: Entangled characters (A/B); when A (Book 1) dies, replaced by B (from Book 2), who vanishes from Book 2. Creates correlation puzzle. Recognized as cool, ambitious, high-risk/reward. **Belongs to separate 'World Engine' concept, not Prismatica.**</dd>
+                    </dl>
+                 </div>
+
+			<div>
+    <details>
+        <summary>Addendum: Authorial Contributions & Development Log Version0.1</summary>
+        <p class="comment">[source: 102] This section logs key author-generated concepts, twists, and structural ideas by including the verbatim prompts that introduced them during the collaborative development process, providing definitive context for their origin. [source: 102, 103]</p>
+        
+        <div class="author-note">
+            <h4>1. Concept: 'Eht Tfihs' & Creator Tech Phasing</h4>
+            <p><strong>Impact:</strong> Established core concepts: tech phasing 'between shifts', negative dimension name/rules ('eht tfihs', backwards time, smokey negatives). Foundational to worldbuilding, Rostova's ordeal, blade, cosmic threat. [source: 103, 104, 105, 106, 107]</p>
+        </div>
+        <div class="author-note">
+            <h4>2. Structure: Numberless Add-on Chapters</h4>
+            <p><strong>Impact:</strong> Conceived using unnumbered, POV-specific chapters for cryptic foreshadowing and impactful reveals (cataclysm, blade origin). [source: 107, 108, 109]</p>
+        </div>
+        <div class="author-note">
+            <h4>3. Twist: Blade Origin Separation Moment</h4>
+            <p><strong>Impact:</strong> Provided concrete origin scene for Blade Remnant (separation of essence, shard pickup from Creator POV). [source: 109, 110, 111, 112]</p>
+        </div>
+        <div class="author-note">
+            <h4>4. Twist: Prism True Purpose & Creator Fate</h4>
+            <p><strong>Impact:</strong> Core twist establishing Prism as failed sanctuary, explained Creators' survival via time dilation, linked Prism fracture to blade origin. [source: 112, 113, 114, 115, 116, 117]</p>
+        </div>
+        <div class="author-note">
+            <h4>5. Plot Point: Inner Prism Corruption & Protagonist Fault</h4>
+            <p><strong>Impact:</strong> Added moral weight/irony; linked protagonists' actions to worsening sanctuary state, creating responsibility/motivation. [source: 117, 118]</p>
+        </div>
+        <div class="author-note">
+            <h4>6. Scene: Climax Setup & Joint Stab Mechanism</h4>
+            <p><strong>Impact:</strong> Defined climax setup: Creator weapon attack, Gunny's fate catalyst, blade *identifies* threat, crucial *joint* stab (Vance/Rostova), specific 'temporal short circuit' mechanism reveals Inner Prism. [source: 118, 119, 120, 121, 122, 123, 124, 125]</p>
+        </div>
+         <div class="author-note">
+            <h4>7. Twist: Final Blade Action & Civilization End</h4>
+            <p><span class="final-twist"><strong>Impact:</strong> Final twist recontextualizing Blade Remnant's existence. Fulfills ambiguity goal, delivers shocking climax questioning artifact's nature.</span> [source: 125, 126, 127, 128, 129]</p>
+        </div>
+         <div class="author-note">
+            <h4>8. Character Goal: Blade Ambiguity</h4>
+            <p><strong>Impact:</strong> Guiding principle for blade's ambiguous actions and focus on consequences, ensuring questionable alignment until final twist. [source: 129, 130, 131]</p>
+        </div>
+         <div class="author-note">
+            <h4>9. Setting Imagery: Inner Prism</h4>
+            <p><strong>Impact:</strong> Provided core visual description for Inner Prism environment (hypercube, marbles, Creator structure). [source: 131, 132, 133]</p>
+        </div>
+         <div class="author-note">
+            <h4>10. Sequel Concepts</h4>
+            <p><strong>Impact:</strong> Defined potential future directions: spin-off series (Inner Prism exploration) and main narrative continuation ('eht tfihs' threat). [source: 133, 134, 135]</p>
+        </div>
+        </details>
+				<div>
+    <details>
+        <summary>Addendum: Authorial Contributions & Development Logv0.2</summary>
+        <div class="details-content">
+            <p class="comment">[cite: 184] This section logs key author-generated concepts, twists, and structural ideas by including the verbatim prompts that introduced them during the collaborative development process, providing definitive context for their origin.</p>
+            <div class="author-note"><strong>1. Concept: 'Eht Tfihs' & Creator Tech Phasing:</strong> Established negative dimension name/rules, tech phasing. [cite: 185, 186, 187, 188, 189]</div>
+            <div class="author-note"><strong>2. Structure: Numberless Add-on Chapters:</strong> Conceived unnumbered chapters for reveals. [cite: 189, 190, 191]</div>
+            <div class="author-note"><strong>3. Twist: Blade Origin Separation Moment:</strong> Defined origin scene (essence/shard), emphasized 'dark shape' for foreshadowing. [cite: 192, 193, 194, 195, 196, 197, 198]</div>
+            <div class="author-note"><strong>4. Twist: Prism True Purpose & Creator Fate:</strong> Established Prism=failed sanctuary, Creators time-dilated. [cite: 198, 199, 200, 201]</div>
+            <div class="author-note"><strong>5. Plot Point: Inner Prism Corruption / Protagonist Fault:</strong> Added moral weight - protagonists caused internal corruption. [cite: 202, 203]</div>
+            <div class="author-note"><strong>6. Scene: Climax Setup / Joint Stab Mechanism:</strong> Defined Gunny attack, Blade pointing, Joint Stab, temporal short-circuit. [cite: 203, 204, 205, 206, 207, 208]</div>
+            <div class="author-note"><strong>7. Twist: Final Blade Action / Civilization End:</strong> <span class="final-twist">Revealed final twist: Blade entity deliberately invited 'eht tfihs'.</span> [cite: 208, 209, 210, 211, 212]</div>
+            <div class="author-note"><strong>8. Character Goal: Blade Ambiguity:</strong> Stated goal of making blade appear good without confirmation, focus on consequences. [cite: 212, 213, 214]</div>
+             <div class="author-note"><strong>9. Setting Imagery: Inner Prism:</strong> Provided core visual (hypercube, marbles, structure). [cite: 214, 215, 216]</div>
+             <div class="author-note"><strong>10. Character Beat: Petrova Sacrifice:</strong> Suggested Petrova for Ch 17 sacrifice for impact/consistency. [cite: 216, 217, 218]</div>
+             <div class="author-note"><strong>11. Character Beat: Vance/Rostova Hug:</strong> Proposed specific bonding moment post-sacrifice (Ch 18 start). [cite: 218, 219, 220]</div>
+             <div class="author-note"><strong>12. Sequel Concepts:</strong> Outlined split: spin-off (Inner Prism exploration - 'Of Trailblazers and Pathfinders') & main continuation ('eht tfihs'). [cite: 220, 221, 222]</div>
+             </div>
+					<div>
+        <details>
+            <summary>Authorial Contributions & Verbatim Prompts Logv0.3</summary>
+            <div>
+                <p><em>This section logs key author-generated concepts, twists, and structural ideas by including the verbatim prompts that introduced them during the collaborative development process, providing definitive context for their origin.</em></p>
+
+                <div class="concept-item">
+                    <h3>1. Concept: Eht Tfihs & Creator Tech Phasing</h3>
+                    <p><strong>Context:</strong> Early in development, the author introduced specific mechanics for Creator tech and the nature of negative dimensions.</p>
+                    <p><strong>Verbatim Prompts:</strong></p>
+                    <blockquote>(From prompt refining Chapter 4-6 details): 'first concept and test, detailed and descriptive for each chapter individually cementing certain plot points like the Prism unexpectedly shifting differently in perceived speed due to time dilation, and twist realization that Creator Technology has to be reached in the split moment between shifts, finding negative dimensions.'</blockquote>
+                    <blockquote>(From prompt defining Chapter 13): 'So eht tfihs is hard to describe, partly by design. It's a negative dimension, a void where time itself goes backwards despite Eva experiencing it flowing around away from her as if going against the stream. What's dead and long gone in the present here exists as a solid Smokey negative of itself, rotting while de-aging.'</blockquote>
+                    <p><strong>Development Impact:</strong> These prompts established the core concepts: Creator tech phasing 'between shifts', the existence and name ('eht tfihs') of the negative dimension, and its defining paradoxical characteristics (backwards time, smokey negatives, reverse decay). This became foundational to the worldbuilding, Rostova's ordeal, the blade's nature, and the overarching cosmic threat.</p>
+                </div>
+
+                <div class="concept-item">
+                    <h3>2. Structure: Numberless Add-on Chapters</h3>
+                     <p><strong>Context:</strong> The author proposed using unnumbered interstitial chapters for specific reveals.</p>
+                     <p><strong>Verbatim Prompts:</strong></p>
+                     <blockquote>(From prompt requesting Creator POV chapter): 'Can you do the same thing again for the next chapter only, begin chapter with Rostova's eyes opening up close. Introduce side effect... [Details about Rostova's experience] ... and has to wait until the next shift... [REMOVED ROSTOVA DETAILS AS FOCUS IS ON STRUCTURE PROMPT] ... Create a sudden cryptic numberless add-on chapter that starts in media res, being a confusing scene from the Creators point of view, showing the final minutes of their civilization when they stare at the Prism which begins shimmering, and then in a blinding flash disappeared. Then starting with the next few chapters.'</blockquote>
+                     <blockquote>(From prompt discussing final twist placement): 'At the end of the book, last paragraph is another numberless add-on and goes back to the moment the last one ended.'</blockquote>
+                     <p><strong>Development Impact:</strong> The author conceived the specific structural device of using these unnumbered, POV-specific chapters to frame the main narrative, allowing for cryptic foreshadowing and impactful, delayed reveals about the cataclysm and the blade's origin.</p>
+                </div>
+
+                <div class="concept-item">
+                     <h3>3. Twist: Blade Origin & Separation Moment</h3>
+                     <p><strong>Context:</strong> The author defined the specific content and reveal within the second numberless chapter.</p>
+                     <p><strong>Verbatim Prompts:</strong></p>
+                     <blockquote>(From prompt detailing second numberless chapter): 'So the second numberless add-on chapter should begin with the white flashing light dimming and a first person narrative looks down as we pick up directly after the first one. They look down as the blurry dark shape comes into view being held by the Creator we are seeing through, and we see this Creator pick up a Prism crystal shard. meaning we have been seeing the end and separation of the remnant from the first part.'</blockquote>
+                      <blockquote>(Clarification Prompt): 'I don't want to confirm or deny that I think, it clearly is.. But I'd love to read theories about who else people might think it could potentially be.'</blockquote>
+                      <blockquote>(Further Clarification): 'I was surprised that you didn't take much note that I begun the nameless add-on 2 with the black shape but never really doing anything with it, considering it's the first thing described in that part! So that twist doesn't come out of nowhere.'</blockquote>
+                     <p><strong>Development Impact:</strong> This prompt provided the concrete origin scene for the Blade Remnant, explicitly showing the separation of the 'dark shape' (essence) and the pickup of the shard from the Creator POV. The author intentionally emphasized the 'dark shape' first to subtly foreshadow agency and allow ambiguity, making the final twist more earned.</p>
+                </div>
+
+                <div class="concept-item">
+                    <h3>4. Twist: Prism True Purpose & Creator Fate</h3>
+                     <p><strong>Context:</strong> The author introduced the central twist redefining the Prism's function and the Creators' situation.</p>
+                     <p><strong>Verbatim Prompts:</strong></p>
+                     <blockquote>(From prompt revealing Prism's true nature): 'Well here's firstly the explanation for the living Creators and the Prism's disappearance from the Creators world and why the Prism has living Creators inside. <br><br>The Prism was a perseverance plan that was meant to stop eht tfihs from invading and consuming their world. However when they activated the Prism with the intention to safeguard their world inside it, eht tfihs broke open at the same spot as the Prism and just like with the blade, it caused a massive shining perfectly black light (white negative😉) and broke the Prism, the active started cycle it would take for the machine to make a space inside itself being 22 minutes(😉) but it overloaded when the creation began, separating Prism itself just as much as the remnant blade just not in place, but time. however the Creators inside Still live due to using the time dilation inside the Prism to slow down their perceived speed of time (good payoff for the time dilation earlier?) to live nearly infinity, but to them they just overloaded and transported seconds ago, until Vance and Eva stuck the blade into it'</blockquote>
+                    <p><strong>Development Impact:</strong> This core authorial twist established the Prism as a failed sanctuary against 'eht tfihs', explained the Creators' survival via time dilation (paying off earlier hints), linked the Prism's fracture to the blade's origin event, and recontextualized the entire conflict.</p>
+                </div>
+
+                <div class="concept-item">
+                    <h3>5. Plot Point: Inner Prism Corruption & Protagonist Fault</h3>
+                     <p><strong>Context:</strong> The author specified a key consequence following the Inner Prism reveal.</p>
+                      <p><strong>Verbatim Prompts:</strong></p>
+                      <blockquote>(From prompt adding consequence): 'I also wanted the corruption to be the protagonist's fault, setting up why they would gain control, together with the task of defending the worlds inside the Prism's space from a threat they let in.'</blockquote>
+                     <p><strong>Development Impact:</strong> This author-defined consequence added significant moral weight and dramatic irony, making the protagonists directly responsible for the 'eht tfihs' corruption within the sanctuary, thus providing strong motivation for their future actions and potential guardianship role.</p>
+                </div>
+
+                <div class="concept-item">
+                    <h3>6. Scene: Climax Setup & Joint Stab Mechanism</h3>
+                    <p><strong>Context:</strong> The author detailed the specific sequence and mechanics leading into the Chapter 19 climax.</p>
+                    <p><strong>Verbatim Prompts:</strong></p>
+                    <blockquote>(Initial prompt for Ch 19 setup): 'I want the storyline to go toward the point where at chapter 19 Vance is the one who stabs the Prism with the remnant blade in the present and it opening up the Prism inside the Prism, dimensions on dimensions like marbles, all constantly flickering with their own shift times and the discovery of a Creator base, and Creators.'</blockquote>
+                    <blockquote>(Refining the setup): 'Well Vance is the one who stabs the Prism, but only after an event where the Prism opens but instead of a Clear portal a black bolt or tentacl of electricity but alive shoots through as Eva Rostova, Vance, Petrova, and Gunny were about to go on their first mission... [details on blade aging/restoration] ... when Gunny gets instantly impaled... The blade suddenly beginning to flow backwards through forwards time and almost forces Eva Rostova's hand onto the blade... Eva screams pierce the air as a shining perfectly black light shrines from the blade... Vance grabs the handle with her and stabs it into the prism.'</blockquote>
+                     <blockquote>(Further clarification on blade action): 'The blade reacted and pointed to the black electricity, it didn't stab itself. It recognized it as a Creator weapon, but the attack on Gunny made the situation quickly dissolved, it was pointing to its kind, or its old kind.'</blockquote>
+                     <blockquote>(Confirming mechanism): 'It is almost perfect! However you missed something to find significant but the remnant blade's time flow reversed back forward through time, the shining perfectly black light came from the connection between the forward flow of electricity interaction with the backwards time flow of the blade Short circuits the Prism's defense mechanism, and that's why the Prism inside the Prism moment happens here in my snippets.'</blockquote>
+                     <blockquote>(Confirming Joint Action): 'But you missed one thing entirely, Vance and Eva stab together.'</blockquote>
+                    <p><strong>Development Impact:</strong> Through these prompts, the author defined the entire climax setup: the Creator weapon attack, Gunny's catalyst role, the blade *identifying* the threat by pointing, the crucial *joint* stab action by Vance and Rostova, and the specific 'temporal short circuit' mechanism (clash of opposing time flows) that disables defenses and reveals the Inner Prism.</p>
+                </div>
+
+                 <div class="concept-item">
+                     <h3>7. Twist: Final Blade Action & Civilization End</h3>
+                     <p><strong>Context:</strong> The author revealed the story's ultimate twist concerning the Blade Remnant's origin.</p>
+                     <p><strong>Verbatim Prompts:</strong></p>
+                     <blockquote>(From prompt revealing final twist): 'AND THAT'S WHERE MY FINAL TWIST HAPPENS! At the end of the book, last paragraph is another numberless add-on and goes back to the moment the last one ended. And the POV goes to the black shape again in the Creators hand, and it is clear now, it's the blade. and he stabs it into the Wall next to the Prism, inviting it in, and ending their civilization.'</blockquote>
+                    <p><strong>Development Impact:</strong> This final, author-generated twist provides a devastating recontextualization of the Blade Remnant's entire existence and actions. It fulfills the goal of ambiguity and delivers a shocking climax that questions the nature of the artifact the protagonists relied upon.</p>
+                </div>
+
+                <div class="concept-item">
+                     <h3>8. Character Goal: Blade Ambiguity</h3>
+                     <p><strong>Context:</strong> The author stated a specific narrative goal regarding the Blade Remnant's portrayal.</p>
+                     <p><strong>Verbatim Prompts:</strong></p>
+                     <blockquote>(From prompt explaining narrative goal): 'I always disliked when people's character's don't make mistakes or can do anything without consequences because the author likes that character in particular. It's much more fascinating when you're rooting for an event, or a victory and then getting exactly what you want, and something else too that you didn't expect.'</blockquote>
+                     <blockquote>(and earlier) 'one of the main goals for this story I had was to see if I could potentially make a 'character' like the blade appear as either a protagonist or a 'goodguy' without making them do anything good without it being noticed.'</blockquote>
+                     <p><strong>Development Impact:</strong> This authorial intent served as a guiding principle for developing the blade's ambiguous actions and the focus on consequences, ensuring its alignment remained questionable until the final twist.</p>
+                </div>
+
+                <div class="concept-item">
+                    <h3>9. Setting Imagery: Inner Prism</h3>
+                    <p><strong>Context:</strong> The author provided the core visual description for the Inner Prism environment.</p>
+                    <p><strong>Verbatim Prompts:</strong></p>
+                    <blockquote>(From prompt describing Inner Prism): 'I do have a single image in my head for the sight of the Prism inside the Prism... The Prism's opalescent crystals vibrating and seeming to almost pulse..and then...crack... crumbling, behind each small fragment a sight of constantly changing pulsing lights... A space of infinite room which contained a hypercube creating itself around infinite universes marbles each a hypercube in itself shifting different universes around one round 'marble'. Above the rotating outer hypercube is a facility? City? It's hard to tell.'</blockquote>
+                    <p><strong>Development Impact:</strong> This specific, author-provided visual became the basis for visualizing and describing the unique, complex structure revealed within the Prism in Chapter 19.</p>
+                </div>
+
+                <div class="concept-item">
+                    <h3>10. Character Beat: Petrova Sacrifice</h3>
+                     <p><strong>Context:</strong> Following discussion on raising stakes and needing a significant loss before the climax, the author specifically suggested Petrova as the character to make the sacrifice in Chapter 17.</p>
+                     <p><strong>Verbatim Prompts:</strong></p>
+                     <blockquote>(After discussing potential character sacrifice in Ch 17): 'Petrova?'</blockquote>
+                     <blockquote>(Following discussion of impact): 'It always sucks losing a good character. But you got to kill your darlings man.'</blockquote>
+                     <blockquote>'Also I think Petrova genuinely would do that choice in the dire and life or death situation if it would save the team.'</blockquote>
+                     <p><strong>Development Impact:</strong> The author identified Petrova for the sacrifice, recognizing the emotional weight and character consistency, making her death a pivotal moment impacting Rostova and setting the stage for the finale.</p>
+                </div>
+
+                <div class="concept-item">
+                    <h3>11. Character Beat: Vance/Rostova Hug</h3>
+                     <p><strong>Context:</strong> The author proposed a specific character moment for Vance and Rostova immediately following the return from Petrova's sacrifice.</p>
+                     <p><strong>Verbatim Prompts:</strong></p>
+                     <blockquote>(Regarding start of Chapter 18): 'I think this might be a time where we should turn Vance and Eva from friendly teammates to friends. I would think after having experienced the feeling he left Eva in the Prism for three weeks, his understanding and empathy would make him approach and hug her wordlessly.'</blockquote>
+                     <p><strong>Development Impact:</strong> This specific, author-suggested character beat provided a powerful, wordless moment of connection, solidifying the shift in their relationship due to shared trauma and empathy, setting up their future partnership.</p>
+                </div>
+
+                 <div class="concept-item">
+                     <h3>12. Sequel Concepts</h3>
+                     <p><strong>Context:</strong> The author outlined potential future directions for the story world.</p>
+                     <p><strong>Verbatim Prompts:</strong></p>
+                     <blockquote>(From prompt discussing sequels): 'I also mean this point to be a bit of a hint for a sequel which I intended as a series of short stories and novella's called 'of Trailblazers and Pathfinders' and would be about after gaining control at the end of the story they were going to need to send out new teams finding, exploring and defending the worlds inside world's inside the Prism, and these missions would be the stories in that series while this series goes forward with the focus changing to figuring out the eht tfihs, especially when it was the breaking of the Prism that let the negative dimensions, the negative space form inside the Prism's space, as it now literally has negative space.'</blockquote>
+                     <p><strong>Development Impact:</strong> The author defined the potential split for future stories: a spin-off series exploring the Inner Prism dimensions ('Of Trailblazers and Pathfinders') and a continuation of the main narrative focusing on the 'eht tfihs' threat, directly linking the sequel setup to the consequence of the Prism breach.</p>
+                 </div>
+        </details> <!-- End Dev History -->
+        <!-- ============================================= -->
+        <!-- Development & Process Log: Idea Evolution & Rationale -->
+        <!-- ============================================= -->
+        <section id="dev-log">
+            <h2>Addendum: Development & Process Log: Idea Evolution & Rationale</h2>
+
+            <p><em>This section serves as a development record, tracking the evolution of core concepts and documenting the reasoning behind key narrative shifts and world-building decisions. Its purpose is to maintain clarity on the intended logic and ensure consistency throughout the story's development.</em></p>
+            <hr>
+
+            <details>
+                <summary><strong>Log Version 0.1 (Initial Concepts & Core Twist)</strong></summary>
+                <div>
+                    <h3>Core Premise & Twist Origin:</h3>
+                    <ul>
+                        <li>Initial concept focused on a military team exploring an alien artifact (Prism) that functioned as a portal. Standard portal fantasy/sci-fi setup.</li>
+                        <li>**Key Shift (Author Contribution):** Idea introduced: What if the "artifact" isn't just a gate, but a *failed sanctuary* against something worse? What if the "aliens" (Creators) aren't invaders, but desperate refugees trapped by time dilation?</li>
+                        <li>**Blade Remnant Twist (Author Contribution):** To subvert the "mysterious artifact" trope, the Blade Remnant was conceived not just as a tool/guide, but as the *fragmented consciousness of the entity responsible for the original catastrophe* – the one who invited 'eht tfihs'. This entity was the *original architect* of the Prism, seeking power/transcendence, not sanctuary. The twist is revealed only *after* the artifact seems gone/resolved.</li>
+                        <li>**'Eht Tfihs' Conception (Author Contribution):** Needed a unique cosmic threat. Instead of just a void or hostile entities, conceived 'eht tfihs' as a dimension with *retrograde time flow relative to observers*, causing paradoxical decay/de-aging ("smokey negative"). Name derived from reversing "the shift".</li>
+                    </ul>
+                    <h3>Initial Character Concepts:</h3>
+                    <ul>
+                        <li>Rostova: Initially conceived as a more standard hardened soldier. Refined to be highly competent but carrying survivor's guilt and burden of command, making her vulnerable to the Blade's manipulation.</li>
+                        <li>Vance: Conceived as the cautious, by-the-book counterpoint to Rostova, creating necessary conflict and different perspectives on the mission's ethical dilemmas.</li>
+                    </ul>
+                    <h3>Core Loop/Structure:</h3>
+                    <ul>
+                        <li>Established the Three-Act structure with clear plot points based on exploring the Prism, encountering the Creators, discovering the true nature of the Prism and 'eht tfihs', and the confrontation involving the Blade Remnant.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <hr>
+
+            <details>
+                <summary><strong>Log Version 0.2 (Refining Mechanics & Creator Backstory)</strong></summary>
+                <div>
+                    <h3>'Causal Jetlag' Explanation (Author/AI Collaboration & Refinement):</h3>
+                    <ul>
+                        <li>**Problem:** Needed a plausible, non-generic reason for extreme time dilation affecting the Creators within the Prism. Simple stasis fields felt cliché.</li>
+                        <li>**Initial Idea (Author):** Maybe the FTL jump *caused* the time dilation as a side effect?</li>
+                        <li>**Refinement (AI Prompt/Response & Author Selection):** Brainstormed terminology for this FTL side effect. "Causal Jetlag" was selected/refined as sounding appropriately pseudo-scientific and fitting the idea of temporal inertia/desynchronization resulting from the botched Prism activation/FTL arrival.</li>
+                        <li>**Narrative Integration (Author):** This ties the Creators' predicament directly to the Prism's failure, enhancing the tragedy and providing a concrete in-universe explanation rather than hand-waving.</li>
+                    </ul>
+                    <h3>Inner Sanctum Breach & Corruption (Author Contribution):</h3>
+                    <ul>
+                        <li>**Problem:** Needed a significant escalation for the climax and a reason for the mission to have lasting negative consequences beyond immediate survival.</li>
+                        <li>**Solution (Author):** The protagonists, manipulated by the Blade Remnant (architect), *must* be the ones to breach the Inner Sanctum. The method ("Joint Stab") forces the Blade's negative time into the Prism's corrupted positive time, causing a reality tear. This act *directly causes* 'eht tfihs' to permanently corrupt the sanctuary's core – a major failure stemming from their actions.</li>
+                    </ul>
+                    <h3>Creator Backstory Deepening (Author Contribution):</h3>
+                    <ul>
+                        <li>Fleshed out the Creators' motivation: Not conquerors, but fleeing 'eht tfihs' using the Prism, designed by one of their own (the entity later becoming the Blade Remnant), who secretly intended it for transcendence via 'eht tfihs'. The activation failure trapped them in dilated time *and* allowed the architect's consciousness to fragment into the Blade Remnant within 'eht tfihs'.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <hr>
+
+            <details>
+                <summary><strong>Log Version 0.3 (Structural Elements & Thematic Resonance)</strong></summary>
+                <div>
+                    <h3>Numberless Interstitial Chapters (Author Contribution):</h3>
+                    <ul>
+                        <li>**Purpose:** To provide key perspective shifts (e.g., Petrova's sacrifice, the Blade Remnant's internal monologue/history) without disrupting the main numbered chapter flow focused on the primary Rostova/Vance POV. Adds structural uniqueness and allows for focused exposition/emotional beats.</li>
+                    </ul>
+                    <h3>Sacrificial Arcs (Author Contribution):</h3>
+                    <ul>
+                        <li>Petrova's sacrifice planned early to establish stakes and the cost of underestimating the environment. Designed to give Rostova personal motivation and guilt.</li>
+                        <li>Vance's potential sacrifice/severe injury during the climax reinforces the "consequences" theme and leaves Rostova fundamentally changed/isolated for potential sequels.</li>
+                    </ul>
+                    <h3>Thematic Reinforcement (Author Contribution):</h3>
+                    <ul>
+                        <li>Consciously reviewed plot points to ensure they supported key themes: Consequence (Inner Sanctum breach), Responsibility (Rostova's command decisions), Perception vs. Reality (Creators' true nature, Blade's true identity), Cosmic Horror (nature of 'eht tfihs', futility against it).</li>
+                    </ul>
+                    <h3>Verbatim Prompts/Refinement Record (Meta-Documentation):</h3>
+                    <ul>
+                        <li>Included specific prompts given to AI (like ChatGPT 4) *not* for idea generation credit, but to document the *process* of refining existing ideas (e.g., polishing prose, checking logic, brainstorming terminology like 'Causal Jetlag'). Shows the specific inputs that led to certain outputs, aiding in tracking the evolution of phrasing or specific mechanical descriptions. **Purpose:** Process transparency and reproducibility of refinement steps.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <hr>
+
+            <details>
+                <summary><strong>Development Log & Discussion Highlights (Ongoing)</strong></summary>
+                <div>
+                    <h4>Key Decision Points & Justifications:</h4>
+                    <ul>
+                        <li>**Ending Twist Placement:** Decision to place the Blade Remnant reveal *after* the immediate climax (escape from the Inner Sanctum) rather than during it. **Rationale:** Creates a false sense of resolution, making the final twist more impactful. It shifts the victory into a horrifying realization of failure and future threat. Prevents the climax from being solely about defeating a physical entity and makes it about the *consequences* of their actions with the Blade.</li>
+                        <li>**'Eht Tfihs' Mechanics:** Constant refinement to ensure the "backwards time decay" rules are applied consistently in descriptions (e.g., how injuries manifest, how objects appear). **Rationale:** The unique physics are core to the horror and plot; consistency is crucial for suspension of disbelief.</li>
+                        <li>**Character Voices:** Ongoing effort (reflected in Chapter 9 example) to ensure Rostova's internal monologue reflects her burden and guilt, while Vance's dialogue reflects his caution and procedural focus. **Rationale:** Differentiates characters and makes their contrasting viewpoints clear through action and dialogue.</li>
+                        <li>**Pacing:** Using the Three-Act structure with defined pinch points to ensure rising tension. Interstitial chapters used to manage exposition dumps and control the flow of information to the reader. **Rationale:** Maintain reader engagement and ensure reveals land effectively.</li>
+                        <li>**AI Collaboration Notes:** Explicitly noting where AI (ChatGPT 4) was used for tasks like prose polishing, summary generation from bullet points, or brainstorming terminology based on author-provided concepts. **Rationale:** Maintain transparency about the writing process and tools used for specific refinement tasks, while clearly delineating the origin of core creative concepts and decisions as tracked above.</li>
+                    </ul>
+                    <hr> <!-- Separator before review sections -->
+                     <div class="review-section">
+                        <h3>Version Comparison (Based on StoryBibleRev5 Session)</h3>
+                         <p>Analysis comparing four conceptual versions leading up to V2.2:</p>
+                         <table>
+                             <thead>
+                                 <tr>
+                                     <th>Aspect</th>
+                                     <th>Code-14.txt (Draft 0.1a)</th>
+                                     <th>Code-15.txt (Collaborative Final)</th>
+                                     <th>Story Bible.md (Version 0.2)</th>
+                                     <th>Truly Complete Story.txt (Version 2.2)</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                 <tr>
+                                     <td><strong>Logline</strong></td>
+                                     <td>Basic, lacking twist</td>
+                                     <td>Refined, incorporates major twist</td>
+                                     <td>Further refined, emphasizes stakes</td>
+                                     <td>Most detailed, integrates final reveal</td>
+                                 </tr>
+                                 <tr>
+                                     <td><strong>Character Arcs</strong></td>
+                                     <td>Initial traits</td>
+                                     <td>Detailed backstories, motivations</td>
+                                     <td>Emotional depth, trauma focus</td>
+                                     <td>Adds nuanced relationship moments (e.g., hug)</td>
+                                 </tr>
+                                 <tr>
+                                     <td><strong>Worldbuilding</strong></td>
+                                     <td>'Eht tfihs' introduced</td>
+                                     <td>Detailed 'eht tfihs', Creator tech</td>
+                                     <td>Inner Prism described</td>
+                                     <td>Incorporates drafted prose for chapters</td>
+                                 </tr>
+                                 <tr>
+                                     <td><strong>Structural Elements</strong></td>
+                                     <td>Basic three-act hint</td>
+                                     <td>Numberless add-on chapters</td>
+                                     <td>Detailed beats, pinch points</td>
+                                     <td>Actual drafted chapter prose included</td>
+                                 </tr>
+                                 <tr>
+                                     <td><strong>Authorial Contributions Log</strong></td>
+                                     <td>Summary of key concepts</td>
+                                     <td>Verbatim prompts for major twists</td>
+                                     <td>Verbatim log expanded</td>
+                                     <td>Verbatim log retained, with prose</td>
+                                 </tr>
+                             </tbody>
+                         </table>
+                         <h4>Key Observations on Progression:</h4>
+                         <ul>
+                             <li><strong>Narrative Depth:</strong> Increased significantly, culminating in detailed prose and revision history in V2.2.</li>
+                             <li><strong>Character Development:</strong> Evolved from basic traits to nuanced emotional arcs.</li>
+                             <li><strong>Worldbuilding:</strong> Concepts ('eht tfihs', Creator tech, Inner Prism) consistently developed and complexified.</li>
+                             <li><strong>Structural Innovation:</strong> Numberless add-on chapters remained standout; V2.2 integrated within prose structure.</li>
+                         </ul>
+                         <p><strong>Conclusion:</strong> The Story Bible evolved from a basic outline to a comprehensive narrative document. Version 2.2 represented the most complete iteration at that time.</p>
+                    </div>
+                     <hr> <!-- Separator before review sections -->
+                    <div class="review-section">
+                        <h3>Identified Areas for Improvement (Post V2.2 - StoryBibleRev5 Session)</h3>
+                        <p>Even with V2.2, further development areas were identified:</p>
+                        <ul>
+                            <li><strong>Placeholder Chapters (20-25 & Interstitial 2):</strong> Needed detailed prose, sensory details, character interactions for climax and resolution.</li>
+                            <li><strong>Character Backstories/Motivations:</strong> Opportunities to add depth to minor characters (beyond core team) and explore Dr. Thorne's motivations further.</li>
+                            <li><strong>Worldbuilding Details:</strong> Elaborate on 'eht tfihs' mechanics/influence; provide more context on Creator civilization pre-cataclysm (daily life, society).</li>
+                            <li><strong>Thematic Resonance:</strong> Explore additional themes (ethics of discovery, burden of leadership); ensure consistent reinforcement.</li>
+                            <li><strong>Narrative Pacing/Tension:</strong> Refine pacing in climax/resolution; consider subplots/secondary conflicts (internal team/command conflicts).</li>
+                            <li><strong>Authorial Contributions Log:</strong> Keep updated with ongoing evolution.</li>
+                        </ul>
+                    </div>
+                     <!-- Note: Content from StoryBibleRev4 is largely superseded by Rev5 but included contextually above. -->
+                </div>
+            </details>
+
+        </section>
+        <!-- ============================================= -->
+        <!-- END Development & Process Log               -->
+        <!-- ============================================= -->
+    <hr>
+</section> 
+    </main>
+
+</body>
+</html>
